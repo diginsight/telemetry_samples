@@ -7,6 +7,10 @@
 		<UserSecretsId>24d38bd0-a6a9-4190-8efa-894bedba7e23</UserSecretsId>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<UseDiginsightProjectReference>false</UseDiginsightProjectReference>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<None Remove="appsettings.json" />
 		<None Remove="log4net.config" />
@@ -47,10 +51,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" />
+		<PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" Condition="'$(UseDiginsightProjectReference)' != 'true'" />
+		<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(UseDiginsightProjectReference)' == 'true'" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Common.Diagnostics.Logstrings.Wpf" Version="1.0.2.19" />
 		<!--<ProjectReference Include="..\..\..\Common.Diagnostics.Logstrings.Wpf\Common.Diagnostics.Logstrings.Wpf.csproj" />-->
-		<!--<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" />-->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -73,7 +80,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 	</ItemGroup>
 
 </Project>
