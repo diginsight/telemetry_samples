@@ -221,7 +221,8 @@ namespace EasySample
                 var contextAccessor = Host.Services.GetService<IHttpContextAccessor>();
                 if (contextAccessor == null) { return traceLoggerMinimumLevel; }
 
-                ok = contextAccessor?.HttpContext?.Request?.Headers?.TryGetValue("TraceLoggerMinimumLevel", out StringValues headerValues) ?? false;
+                StringValues headerValues = default(StringValues);
+                ok = contextAccessor?.HttpContext?.Request?.Headers?.TryGetValue("TraceLoggerMinimumLevel", out headerValues) ?? false;
                 if (ok)
                 {
                     ok = int.TryParse(headerValues.LastOrDefault(), out int minimumLevel);

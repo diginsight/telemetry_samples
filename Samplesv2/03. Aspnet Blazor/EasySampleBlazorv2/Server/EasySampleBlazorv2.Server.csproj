@@ -33,7 +33,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Client\EasySampleBlazorv2.Client.csproj" />
 		<ProjectReference Include="..\Shared\EasySampleBlazorv2.Shared.csproj" />
 	</ItemGroup>
 

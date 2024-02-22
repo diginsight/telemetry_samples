@@ -21,10 +21,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\EasySampleBlazorAppv2\EasySampleBlazorAppv2.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Folder Include="Controllers\" />
 	</ItemGroup>
 
