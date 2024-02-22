@@ -24,9 +24,9 @@
       },
       "Common.Diagnostics": {
         "type": "Direct",
-        "requested": "[2.0.0.9, )",
-        "resolved": "2.0.0.9",
-        "contentHash": "SKBWtY1aV4t/V6ZZESN6fYZWn/8drJP6ulHUwg0inT6QdLUubWqSpqGAAJmFDKu6EhqZgaFdMaj0vHbmGNlt9A==",
+        "requested": "[2.0.0.12, )",
+        "resolved": "2.0.0.12",
+        "contentHash": "jlk6DXha8IcZjK93+cXJ6OtvR31D1cwKz5OucwpFh9OtzRDxIrwq8nEbwtqKuQkDwa1C/TnW/t9dnFFDru+ziw==",
         "dependencies": {
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.Extensions.Configuration": "8.0.0",
@@ -42,7 +42,7 @@
           "OpenTelemetry": "1.7.0",
           "OpenTelemetry.Extensions.Hosting": "1.7.0",
           "System.Net.Http.Json": "8.0.0",
-          "System.Text.Json": "8.0.1",
+          "System.Text.Json": "8.0.2",
           "System.Threading.Tasks.Dataflow": "8.0.0"
         }
       },
@@ -444,8 +444,8 @@
       },
       "System.Text.Json": {
         "type": "Transitive",
-        "resolved": "8.0.1",
-        "contentHash": "7AWk2za1hSEJBppe/Lg+uDcam2TrDqwIKa9XcPssSwyjC2xa39EKEGul3CO5RWNF+hMuZG4zlBDrvhBdDTg4lg==",
+        "resolved": "8.0.2",
+        "contentHash": "29KA2StjWDYp32FvREifawRtNpTziLE1xyuDV9pVQ+MsaE9bIcIieP0io/eZZeLMxR+Nx9zI55RtUtpVpEIdeg==",
         "dependencies": {
           "System.Text.Encodings.Web": "8.0.0"
         }
@@ -458,7 +458,7 @@
       "easysampleblazorlib": {
         "type": "Project",
         "dependencies": {
-          "Common.Diagnostics": "[2.0.0.9, )",
+          "Common.Diagnostics": "[2.0.0.12, )",
           "Microsoft.Extensions.Logging.Abstractions": "[7.0.1, )"
         }
       }
