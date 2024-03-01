@@ -1,25 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.21.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="7.0.0" />
-  </ItemGroup>
+	<PropertyGroup>
+		<UseDiginsightProjectReference>false</UseDiginsightProjectReference>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" />
-	  <!--<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" />-->
-    <ProjectReference Include="..\EasySampleBlazorAppv2\EasySampleBlazorAppv2.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.21.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="7.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" Condition="'$(UseDiginsightProjectReference)' != 'true'" />
+		<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(UseDiginsightProjectReference)' == 'true'" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Controllers\" />
+	</ItemGroup>
 
 
 </Project>

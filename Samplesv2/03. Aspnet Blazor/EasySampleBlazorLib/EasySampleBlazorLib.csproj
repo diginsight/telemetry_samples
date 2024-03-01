@@ -1,16 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
-  </ItemGroup>
+	<PropertyGroup>
+		<UseDiginsightProjectReference>false</UseDiginsightProjectReference>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" />
-	  <!--<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" />-->
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" Condition="'$(UseDiginsightProjectReference)' != 'true'" />
+		<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(UseDiginsightProjectReference)' == 'true'" />
+	</ItemGroup>
 
 </Project>

@@ -1,15 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" />
-	  <!--<ProjectReference Include="..\..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" />-->
-  </ItemGroup>
+	<PropertyGroup>
+		<UseDiginsightProjectReference>false</UseDiginsightProjectReference>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" Condition="'$(UseDiginsightProjectReference)' != 'true'" />
+		<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(UseDiginsightProjectReference)' == 'true'" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
 </Project>
