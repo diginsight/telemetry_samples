@@ -34,8 +34,16 @@ namespace SampleConsoleApp
 
         private static async Task Main(string[] args)
         {
-            //// See https://aka.ms/new-console-template for more information
-            //Console.WriteLine("Hello, World, from sample console app!");
+            DiginsightDefaults.ActivitySource = ActivitySource;
+            var listener = new ActivityListener
+            {
+                ShouldListenTo = s => s.Name == Program.ActivitySource.Name,
+                Sample = (ref ActivityCreationOptions<ActivityContext> options) => ActivitySamplingResult.AllData,
+                ActivityStarted = activity => { /* your code here */ },
+                ActivityStopped = activity => { /* your code here */ },
+            };
+
+            ActivitySource.AddActivityListener(listener);
 
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -56,7 +64,6 @@ namespace SampleConsoleApp
                     })
                     .ConfigureLogging((context, loggingBuilder) =>
                     {
-                        DiginsightDefaults.ActivitySource = ActivitySource;
 
                         loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
 
