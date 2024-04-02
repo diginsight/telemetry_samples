@@ -10,6 +10,8 @@ using Diginsight.Diagnostics.Log4Net;
 using System.Text.Json;
 using OpenTelemetry;
 using OpenTelemetry.Trace;
+using System;
+using OpenTelemetry.Metrics;
 
 namespace SampleConsoleApp
 {
@@ -35,15 +37,6 @@ namespace SampleConsoleApp
         private static async Task Main(string[] args)
         {
             DiginsightDefaults.ActivitySource = ActivitySource;
-            var listener = new ActivityListener
-            {
-                ShouldListenTo = s => s.Name == Program.ActivitySource.Name,
-                Sample = (ref ActivityCreationOptions<ActivityContext> options) => ActivitySamplingResult.AllData,
-                ActivityStarted = activity => { /* your code here */ },
-                ActivityStopped = activity => { /* your code here */ },
-            };
-
-            ActivitySource.AddActivityListener(listener);
 
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -52,12 +45,11 @@ namespace SampleConsoleApp
                 .AddUserSecrets<Program>()
                 .Build();
 
-            host = Host.CreateDefaultBuilder()
+            var appBuilder = Host.CreateDefaultBuilder()
                     .ConfigureAppConfiguration(builder =>
                     {
                         builder.Sources.Clear();
                         builder.AddConfiguration(configuration);
-                        //builder.AddEnvironmentVariables();
                     }).ConfigureServices((context, services) =>
                     {
                         ConfigureServices(context.Configuration, services);
@@ -70,7 +62,6 @@ namespace SampleConsoleApp
                         loggingBuilder.ClearProviders();
 
                         var services = loggingBuilder.Services;
-
                         services.AddLogging(
                                      loggingBuilder =>
                                      {
@@ -84,14 +75,14 @@ namespace SampleConsoleApp
                                          if (configuration.GetValue("AppSettings:Log4NetProviderEnabled", true))
                                          {
                                              loggingBuilder.AddDiginsightLog4Net("log4net.config");
+                                             //var options = new Log4NetProviderOptions();
+                                             //options.Log4NetConfigFileName = "log4net.config";
+                                             //var log4NetProvider = new Log4NetProvider(options);
+                                             ////loggingBuilder.AddProvider(log4NetProvider);
                                          }
                                      }
                                  );
 
-                        //var options = new Log4NetProviderOptions();
-                        //options.Log4NetConfigFileName = "log4net.config";
-                        //var log4NetProvider = new Log4NetProvider(options);
-                        ////loggingBuilder.AddProvider(log4NetProvider);
 
                         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
 
@@ -109,8 +100,13 @@ namespace SampleConsoleApp
 
                         services.AddSingleton<Program>();
 
-                    }).Build();
+                    });
 
+            //appBuilder.UseDiginsightServiceProvider(); // use this to avoid appending TracerProvider and MeterProvider listeners explicitly
+            host = appBuilder.Build();
+
+            _ = host.Services.GetService<TracerProvider>(); // UseDiginsightServiceProvider() to avoid appending listeners explicitly
+            _ = host.Services.GetService<MeterProvider>();
             var logger = host.Services.GetService<ILogger<Program>>();
 
             using var activity = Program.ActivitySource.StartMethodActivity(logger);
@@ -127,6 +123,7 @@ namespace SampleConsoleApp
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddHttpContextAccessor();
             //services.AddClassConfiguration();
+            //services.EnsureDiginsight();
 
 
         }
