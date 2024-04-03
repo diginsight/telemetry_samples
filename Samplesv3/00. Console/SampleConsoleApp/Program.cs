@@ -85,7 +85,6 @@ namespace SampleConsoleApp
 
 
                         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
-
                         var builder = services.AddDiginsightOpenTelemetry();
 
                         builder.WithTracing(
@@ -102,11 +101,9 @@ namespace SampleConsoleApp
 
                     });
 
-            //appBuilder.UseDiginsightServiceProvider(); // use this to avoid appending TracerProvider and MeterProvider listeners explicitly
+            appBuilder.UseDiginsightServiceProvider();      // ensure opentelemetry ActivitySource listeners are registered (TracerProvider and MeterProvider)
             host = appBuilder.Build();
 
-            _ = host.Services.GetService<TracerProvider>(); // UseDiginsightServiceProvider() to avoid appending listeners explicitly
-            _ = host.Services.GetService<MeterProvider>();
             var logger = host.Services.GetService<ILogger<Program>>();
 
             using var activity = Program.ActivitySource.StartMethodActivity(logger);

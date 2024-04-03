@@ -46,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99. Other", "99. Other", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemsControlSample", "zOther\ItemsControlSample\ItemsControlSample.csproj", "{9FD9A23E-645E-4747-8B46-10D0387D9807}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleConsoleApp", "Samplesv3\00. Console\SampleConsoleApp\SampleConsoleApp.csproj", "{4C0AB8D6-7383-4A1F-BAF4-D456A76211D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{9FD9A23E-645E-4747-8B46-10D0387D9807}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FD9A23E-645E-4747-8B46-10D0387D9807}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FD9A23E-645E-4747-8B46-10D0387D9807}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C0AB8D6-7383-4A1F-BAF4-D456A76211D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C0AB8D6-7383-4A1F-BAF4-D456A76211D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C0AB8D6-7383-4A1F-BAF4-D456A76211D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C0AB8D6-7383-4A1F-BAF4-D456A76211D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 		{8ACECA17-F49A-47D3-8A1B-68BC2B0C9687} = {BE7E4AE3-AD84-422B-81C9-18331534317D}
 		{90518A07-C4AF-439B-AFF6-E6B5D5628D5C} = {BE7E4AE3-AD84-422B-81C9-18331534317D}
 		{9FD9A23E-645E-4747-8B46-10D0387D9807} = {D0B46420-0CCF-455C-A5B7-F7D1AC0A12B3}
+		{4C0AB8D6-7383-4A1F-BAF4-D456A76211D5} = {8ACECA17-F49A-47D3-8A1B-68BC2B0C9687}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0B2D1C5-C68C-4899-938A-E9CA74CB5ED5}
