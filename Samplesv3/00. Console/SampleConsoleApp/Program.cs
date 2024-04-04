@@ -111,9 +111,9 @@ namespace SampleConsoleApp
             logger.LogDebug("Sample app running section");
 
 
+            activity.SetOutput(1); // traces span output
             return;
         }
-
 
         private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
