@@ -75,27 +75,12 @@ namespace SampleConsoleApp
                                          if (configuration.GetValue("AppSettings:Log4NetProviderEnabled", true))
                                          {
                                              loggingBuilder.AddDiginsightLog4Net("log4net.config");
-                                             //var options = new Log4NetProviderOptions();
-                                             //options.Log4NetConfigFileName = "log4net.config";
-                                             //var log4NetProvider = new Log4NetProvider(options);
-                                             ////loggingBuilder.AddProvider(log4NetProvider);
                                          }
                                      }
                                  );
 
 
                         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
-                        var builder = services.AddDiginsightOpenTelemetry();
-
-                        builder.WithTracing(
-                            static tracerProviderBuilder =>
-                            {
-                                tracerProviderBuilder
-                                    .AddDiginsight()
-                                    .AddSource(ActivitySource.Name)
-                                    .SetSampler(new AlwaysOnSampler());
-                            }
-                        );
 
                         services.AddSingleton<Program>();
 

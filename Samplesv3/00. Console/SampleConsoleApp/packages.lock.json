@@ -502,10 +502,12 @@
       "diginsight.core": {
         "type": "Project",
         "dependencies": {
+          "Diginsight.Polyfills": "[1.0.0, )",
           "Microsoft.Extensions.Caching.Memory": "[8.*, )",
           "Microsoft.Extensions.Configuration": "[8.*, )",
           "Microsoft.Extensions.Configuration.Binder": "[8.*, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.*, )",
+          "Microsoft.Extensions.Hosting.Abstractions": "[8.*, )",
           "Microsoft.Extensions.Logging": "[8.*, )",
           "Newtonsoft.Json": "[13.*, )",
           "Scrutor": "[4.*, )"
@@ -515,8 +517,7 @@
         "type": "Project",
         "dependencies": {
           "Diginsight.Core": "[1.0.0, )",
-          "Microsoft.Extensions.Logging.Console": "[8.*, )",
-          "OpenTelemetry.Extensions.Hosting": "[1.*, )"
+          "Microsoft.Extensions.Logging.Console": "[8.*, )"
         }
       },
       "diginsight.diagnostics.log4net": {
@@ -525,6 +526,9 @@
           "Diginsight.Diagnostics": "[1.0.0, )",
           "Microsoft.Extensions.Logging.Log4Net.AspNetCore": "[8.*, )"
         }
+      },
+      "diginsight.polyfills": {
+        "type": "Project"
       }
     }
   }
