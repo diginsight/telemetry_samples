@@ -64,7 +64,7 @@
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("common", new OpenApiInfo { Title = "Common Services", Version = "v1" });
+                c.SwaggerDoc("common", new OpenApiInfo { Title = "Common Services", Version = "common" });
                 c.SwaggerDoc("sample-webapi", new OpenApiInfo { Title = "Sample Web Api", Version = "v1" });
                 c.EnableAnnotations();
 
@@ -101,6 +101,7 @@
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
 
+                c.OperationFilter<FixNestedSwaggerParameterOperationFilter>("common");
                 c.OperationFilter<FixNestedSwaggerParameterOperationFilter>("sample-webapi");
             });
 

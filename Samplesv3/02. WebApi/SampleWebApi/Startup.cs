@@ -4,6 +4,8 @@ using Diginsight.Strings;
 using RestSharp;
 using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System.Text.Json.Serialization;
 
 namespace SampleWebApi
 {
@@ -27,8 +29,6 @@ namespace SampleWebApi
             services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("AppSettings"))
                 .PostConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
 
-            services.AddControllers();
-
             // configure type contracts for log string rendering
             static void ConfigureTypeContracts(LogStringTypeContractAccessor accessor)
             {
@@ -41,7 +41,6 @@ namespace SampleWebApi
                     }
                 );
             }
-
             AppendingContextFactoryBuilder.DefaultBuilder.ConfigureContracts(ConfigureTypeContracts);
             services.Configure<LogStringTypeContractAccessor>(ConfigureTypeContracts);
 
@@ -53,6 +52,27 @@ namespace SampleWebApi
                 // ToDo: add error response (opt.ErrorResponses)
             });
 
+            services.AddControllers()
+                .AddControllersAsServices()
+                .ConfigureApiBehaviorOptions(opt =>
+                {
+                    opt.SuppressModelStateInvalidFilter = true;
+                })
+                .AddJsonOptions(opt =>
+                {
+                    opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                    opt.JsonSerializerOptions.WriteIndented = true;
+
+                    //opt.JsonSerializerOptions.PropertyNamingPolicy = new PascalCaseJsonNamingPolicy();
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                })
+                .AddMvcOptions(opt =>
+                {
+                    opt.MaxModelValidationErrors = 25;
+                    //opt.Conventions.Add(new DataExportConvention() as IControllerModelConvention);
+                    //opt.Conventions.Add(new DataExportConvention() as IActionModelConvention);
+                });
+
             IsSwaggerEnabled = configuration.GetValue<bool>("IsSwaggerEnabled");
             if (IsSwaggerEnabled)
             {
@@ -61,10 +81,33 @@ namespace SampleWebApi
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                //IdentityModelEventSource.ShowPII = true;
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseOpenTelemetryPrometheusScrapingEndpoint();
+
             if (IsSwaggerEnabled)
             {
                 app.UseSwaggerDocumentation();
             }
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseCors();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
         }
         private bool IsSwaggerEnabled { get; set; }

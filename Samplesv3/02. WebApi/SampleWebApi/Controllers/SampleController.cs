@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Diginsight.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,9 +23,11 @@ namespace SampleWebApi.Controllers
         }
 
         [HttpGet("", Name = "Get")]
-        //[ApiVersion(ApiVersions.V_2024_04_26.Name)]
+        [ApiVersion(ApiVersions.V_2024_04_26.Name)]
         public IEnumerable<WeatherForecast> Get()
         {
+            using var activity = Program.ActivitySource.StartMethodActivity(logger); // , new { foo, bar }
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -38,7 +41,7 @@ namespace SampleWebApi.Controllers
         [ApiVersion(ApiVersions.V_2024_04_26.Name)]
         public async Task DoSomeWork() 
         {
-            //using var activity = source.StartMethodActivity(logger, new { foo, bar });
+            using var activity = Program.ActivitySource.StartMethodActivity(logger); // , new { foo, bar }
 
             //var result1 = await StepOne();
             //logger.LogDebug($"await StepOne(); returned {result1}");
