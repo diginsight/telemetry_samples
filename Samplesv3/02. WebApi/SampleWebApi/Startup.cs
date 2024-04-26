@@ -1,4 +1,6 @@
-﻿namespace SampleWebApi
+﻿using Diginsight.AspNetCore;
+
+namespace SampleWebApi
 {
     public class Startup
     {
@@ -13,6 +15,10 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+            services.AddObservability(configuration);
+            services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
+
             services.AddControllers();
 
             IsSwaggerEnabled = configuration.GetValue<bool>("IsSwaggerEnabled");
