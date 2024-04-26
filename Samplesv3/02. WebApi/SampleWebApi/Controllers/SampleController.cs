@@ -1,10 +1,12 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace SampleWebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "common")]
     public class SampleController : ControllerBase
     {
         private readonly ILogger<SampleController> logger;
@@ -19,7 +21,8 @@ namespace SampleWebApi.Controllers
             logger = logger;
         }
 
-        [HttpGet(Name = "Get")]
+        [HttpGet("", Name = "Get")]
+        //[ApiVersion(ApiVersions.V_2024_04_26.Name)]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -31,7 +34,8 @@ namespace SampleWebApi.Controllers
             .ToArray();
         }
 
-        [HttpGet(Name = "DoSomeWork")]
+        [HttpGet ("dosomework", Name = "DoSomeWork")]
+        [ApiVersion(ApiVersions.V_2024_04_26.Name)]
         public async Task DoSomeWork() 
         {
             //using var activity = source.StartMethodActivity(logger, new { foo, bar });
