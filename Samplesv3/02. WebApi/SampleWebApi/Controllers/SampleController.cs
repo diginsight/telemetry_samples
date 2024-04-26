@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Diginsight.CAOptions;
 using Diginsight.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,15 +13,18 @@ namespace SampleWebApi.Controllers
     public class SampleController : ControllerBase
     {
         private readonly ILogger<SampleController> logger;
+        private readonly IClassAwareOptionsMonitor<FeatureFlagOptions> featureFlagsOptionsMonitor;
 
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        public SampleController(ILogger<SampleController> logger)
+        public SampleController(ILogger<SampleController> logger,
+            IClassAwareOptionsMonitor<FeatureFlagOptions> featureFlagsOptionsMonitor)
         {
             this.logger = logger;
+            this.featureFlagsOptionsMonitor = featureFlagsOptionsMonitor;
         }
 
         [HttpGet("", Name = "Get")]
@@ -29,13 +33,15 @@ namespace SampleWebApi.Controllers
         {
             using var activity = Program.ActivitySource.StartMethodActivity(logger); // , new { foo, bar }
 
-            var result = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            var result = default(IEnumerable<WeatherForecast>);
+
+            var permissionCheckEnabled = featureFlagsOptionsMonitor.CurrentValue.PermissionCheckEnabled;
+            var traceRequestBody = featureFlagsOptionsMonitor.CurrentValue.TraceRequestBody;
+            var traceResponseBody = featureFlagsOptionsMonitor.CurrentValue.TraceResponseBody;
+
+            logger.LogDebug("PermissionCheckEnabled: {PermissionCheckEnabled}", permissionCheckEnabled);
+            logger.LogDebug("TraceRequestBody: {TraceRequestBody}", traceRequestBody);
+            logger.LogDebug("TraceResponseBody: {TraceResponseBody}", traceResponseBody);
 
             activity.SetOutput(result);
             return result;
