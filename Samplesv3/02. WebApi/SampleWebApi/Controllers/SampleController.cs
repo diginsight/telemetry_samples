@@ -49,7 +49,7 @@ namespace SampleWebApi.Controllers
         [ApiVersion(ApiVersions.V_2024_04_26.Name)]
         public async Task DoSomeWork()
         {
-            using var activity = Program.ActivitySource.StartMethodActivity(logger); // , new { foo, bar }
+            using var activity = Program.ActivitySource.StartMethodActivity(logger); 
 
             var result1 = await StepOne();
             logger.LogDebug("await StepOne(); returned {result1}", result1);
@@ -65,15 +65,15 @@ namespace SampleWebApi.Controllers
 
         private async Task<int> StepOne()
         {
-            using var activity = Program.ActivitySource.StartMethodActivity(logger); // , new { foo, bar }
+            using var activity = Program.ActivitySource.StartMethodActivity(logger); 
 
-            var result = 1; 
+            var result = 1;
             activity.SetOutput(result);
             return result;
         }
         private async Task<int> StepTwo()
         {
-            using var activity = Program.ActivitySource.StartMethodActivity(logger); // , new { foo, bar }
+            using var activity = Program.ActivitySource.StartMethodActivity(logger); 
 
             var result = 1;
             activity.SetOutput(result);
