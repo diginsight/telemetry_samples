@@ -35,11 +35,9 @@ namespace SampleWebApi.Controllers
 
             var result = default(IEnumerable<WeatherForecast>);
 
-            var permissionCheckEnabled = featureFlagsOptionsMonitor.CurrentValue.PermissionCheckEnabled;
             var traceRequestBody = featureFlagsOptionsMonitor.CurrentValue.TraceRequestBody;
             var traceResponseBody = featureFlagsOptionsMonitor.CurrentValue.TraceResponseBody;
 
-            logger.LogDebug("PermissionCheckEnabled: {PermissionCheckEnabled}", permissionCheckEnabled);
             logger.LogDebug("TraceRequestBody: {TraceRequestBody}", traceRequestBody);
             logger.LogDebug("TraceResponseBody: {TraceResponseBody}", traceResponseBody);
 
