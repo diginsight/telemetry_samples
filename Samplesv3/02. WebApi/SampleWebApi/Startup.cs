@@ -26,7 +26,7 @@ namespace SampleWebApi
             services.AddObservability(configuration);
             services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
 
-            services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("FeatureFlags"))
+            services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("FeatureManagement"))
                 .PostConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
 
             // configure type contracts for log string rendering

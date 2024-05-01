@@ -1,32 +1,34 @@
 <Project>
 
-	<PropertyGroup>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<LangVersion>11</LangVersion>
-		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>11</LangVersion>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-		<Authors>diginsight</Authors>
-		<Product>Diginsight</Product>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-		<PackageProjectUrl>https://github.com/diginsight/telemetry</PackageProjectUrl>
-		<DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
+    <Authors>diginsight</Authors>
+    <Product>Diginsight</Product>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/diginsight/telemetry</PackageProjectUrl>
+    <DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
     <DiginsightVersion>3.0.0-alpha.173</DiginsightVersion>
     <PackageTags>diginsight;telemetry</PackageTags>
-		<!-- TODO <PackageIcon> -->
-		<!-- TODO <Description> in each csproj -->
+    <!-- TODO <PackageIcon> -->
+    <!-- TODO <Description> in each csproj -->
 
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)diginsight.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)diginsight.snk</AssemblyOriginatorKeyFile>
 
-		<OpenTelemetryVersion>1.*</OpenTelemetryVersion>
-		<OpenTelemetryBetaVersion>1.5.*-*</OpenTelemetryBetaVersion>
-	</PropertyGroup>
+    <OpenTelemetryVersion>1.*</OpenTelemetryVersion>
+    <OpenTelemetryBetaVersion>1.5.*-*</OpenTelemetryBetaVersion>
 
+  </PropertyGroup>
+
+  <Import Project="Directory.build.props.user" Condition="Exists('Directory.build.props.user')" />
 </Project>

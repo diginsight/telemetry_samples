@@ -27,7 +27,7 @@ public static class AddObservabilityExtension
         DiginsightDefaults.ActivitySource = Program.ActivitySource;
 
         IConfiguration openTelemetryConfiguration = configuration.GetSection("OpenTelemetry");
-        OpenTelemetryOptions openTelemetryOptions = new OpenTelemetryOptions();
+        OpenTelemetryOptions openTelemetryOptions = new();
         openTelemetryConfiguration.Bind(openTelemetryOptions);
         services.Configure<OpenTelemetryOptions>(openTelemetryConfiguration);
         services.PostConfigureFromHttpRequestHeaders<OpenTelemetryOptions>();
@@ -35,8 +35,16 @@ public static class AddObservabilityExtension
         services.TryAddSingleton<IActivityLoggingSampler, HttpHeadersActivityLoggingSampler>();
         services.Decorate<IActivityLoggingSampler, MyActivityLoggingSampler>();
 
-        services.TryAddSingleton<ISpanDurationMetricProcessorSettings, MySpanDurationMetricProcessorSettings>();
-        services.TryAddSingleton<ICustomDurationMetricProcessorSettings, MyCustomDurationMetricProcessorSettings>();
+        services.TryAddSingleton<ISpanDurationMetricRecorderSettings, MySpanDurationMetricRecorderSettings>();
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IActivityListenerRegistration, MyDurationMetricRecorderRegistration<SpanDurationMetricRecorder>>());
+
+        services.TryAddSingleton<ICustomDurationMetricRecorderSettings, MyCustomDurationMetricRecorderSettings>();
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IActivityListenerRegistration, MyDurationMetricRecorderRegistration<CustomDurationMetricRecorder>>());
+
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IActivityListenerRegistration, ActivitySourceDetectorRegistration>());
 
         var azureMonitorConnectionString = configuration["ApplicationInsights:ConnectionString"];
         services.AddLogging(
@@ -99,8 +107,6 @@ public static class AddObservabilityExtension
                 tracerProviderBuilder =>
                 {
                     tracerProviderBuilder
-                        .AddProcessor<ActivitySourceDetectionProcessor>()
-                        .AddProcessor<SpanDurationMetricProcessor>()
                         .AddDiginsight()
                         .AddAspNetCoreInstrumentation(
                             static options =>
@@ -119,10 +125,7 @@ public static class AddObservabilityExtension
                                     activity.AddTag("http.response_content_length", httpResponse.ContentLength);
                                     activity.AddTag("http.response_content_type", httpResponse.ContentType);
                                 };
-                                options.EnrichWithException = static (activity, exception) =>
-                                {
-                                    activity.SetTag("stack_trace", exception.StackTrace);
-                                };
+                                options.EnrichWithException = static (activity, exception) => { activity.SetTag("stack_trace", exception.StackTrace); };
                             }
                         )
                         .AddHttpClientInstrumentation(
@@ -217,11 +220,11 @@ public static class AddObservabilityExtension
         }
     }
 
-    private sealed class MySpanDurationMetricProcessorSettings : DefaultSpanDurationMetricProcessorSettings
+    private sealed class MySpanDurationMetricRecorderSettings : DefaultSpanDurationMetricRecorderSettings
     {
         private readonly IClassAwareOptionsMonitor<OpenTelemetryOptions> openTelemetryOptionsMonitor;
 
-        public MySpanDurationMetricProcessorSettings(IClassAwareOptionsMonitor<OpenTelemetryOptions> openTelemetryOptionsMonitor)
+        public MySpanDurationMetricRecorderSettings(IClassAwareOptionsMonitor<OpenTelemetryOptions> openTelemetryOptionsMonitor)
         {
             this.openTelemetryOptionsMonitor = openTelemetryOptionsMonitor;
         }
@@ -233,11 +236,11 @@ public static class AddObservabilityExtension
         }
     }
 
-    private sealed class MyCustomDurationMetricProcessorSettings : ICustomDurationMetricProcessorSettings
+    private sealed class MyCustomDurationMetricRecorderSettings : ICustomDurationMetricRecorderSettings
     {
         private readonly IClassAwareOptionsMonitor<OpenTelemetryOptions> openTelemetryOptionsMonitor;
 
-        public MyCustomDurationMetricProcessorSettings(IClassAwareOptionsMonitor<OpenTelemetryOptions> openTelemetryOptionsMonitor)
+        public MyCustomDurationMetricRecorderSettings(IClassAwareOptionsMonitor<OpenTelemetryOptions> openTelemetryOptionsMonitor)
         {
             this.openTelemetryOptionsMonitor = openTelemetryOptionsMonitor;
         }
@@ -248,6 +251,29 @@ public static class AddObservabilityExtension
         {
             OpenTelemetryOptions openTelemetryOptions = openTelemetryOptionsMonitor.Get(activity.GetCallerType());
             return CoreExtractTags(activity, openTelemetryOptions);
+        }
+    }
+
+    private sealed class MyDurationMetricRecorderRegistration<T> : IActivityListenerRegistration
+        where T : IActivityListenerLogic
+    {
+        private readonly IDiginsightActivitiesOptions activitiesOptions;
+
+        public IActivityListenerLogic Logic { get; }
+
+        public MyDurationMetricRecorderRegistration(
+            IServiceProvider serviceProvider,
+            IOptions<DiginsightActivitiesOptions> activitiesOptions
+        )
+        {
+            Logic = ActivatorUtilities.CreateInstance<T>(serviceProvider);
+            this.activitiesOptions = activitiesOptions.Value;
+        }
+
+        public bool ShouldListenTo(ActivitySource activitySource)
+        {
+            string name = activitySource.Name;
+            return activitiesOptions.ActivitySources.Any(x => ActivityUtils.NameMatchesPattern(name, x));
         }
     }
 }
