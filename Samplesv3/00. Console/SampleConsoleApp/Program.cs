@@ -36,6 +36,13 @@ namespace SampleConsoleApp
 
         private static async Task Main(string[] args)
         {
+            //DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true, };
+            //IDeferredLoggerFactory deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
+            //var logger = deferredLoggerFactory.CreateLogger<Program>(); // this logger is deferred as configureLogging is not yet called
+
+            //ActivitySource deferredActivitySource = deferredLoggerFactory.ActivitySource; // this activitySource is deferred as configureLogging is not yet called
+            //using var deferredActivity = deferredActivitySource.StartMethodActivity(logger, new { args });
+
             DiginsightDefaults.ActivitySource = ActivitySource;
 
             var configuration = new ConfigurationBuilder()
@@ -44,18 +51,26 @@ namespace SampleConsoleApp
                 .AddEnvironmentVariables()
                 .AddUserSecrets<Program>()
                 .Build();
+            logger.LogDebug("configuration: {Configuration}", configuration);
+
 
             var appBuilder = Host.CreateDefaultBuilder()
                     .ConfigureAppConfiguration(builder =>
                     {
+                        //using var innerActivity = deferredActivitySource.StartMethodActivity(logger, new { builder });
                         builder.Sources.Clear();
                         builder.AddConfiguration(configuration);
-                    }).ConfigureServices((context, services) =>
+                    })
+                    .ConfigureServices((context, services) =>
                     {
+                        //using var innerActivity = deferredActivitySource.StartMethodActivity(logger, new { context, services });
+                        //services.FlushOnCreateServiceProvider(deferredLoggerFactory);
+                        
                         ConfigureServices(context.Configuration, services);
                     })
                     .ConfigureLogging((context, loggingBuilder) =>
                     {
+                        //using var innerActivity = deferredActivitySource.StartMethodActivity(logger, new { context, loggingBuilder });
 
                         loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
 
@@ -86,8 +101,9 @@ namespace SampleConsoleApp
 
                     });
 
-            appBuilder.UseDiginsightServiceProvider();      // ensure opentelemetry ActivitySource listeners are registered (TracerProvider and MeterProvider)
-            host = appBuilder.Build();
+            appBuilder.UseDiginsightServiceProvider(); // ensure opentelemetry ActivitySource listeners are registered (TracerProvider and MeterProvider), Flusies deferredLogger
+            logger.LogDebug("appBuilder.UseDiginsightServiceProvider(); completed");
+            host = appBuilder.Build(); // logger.LogDebug("host = appBuilder.Build(); completed");
 
             var logger = host.Services.GetService<ILogger<Program>>();
 
