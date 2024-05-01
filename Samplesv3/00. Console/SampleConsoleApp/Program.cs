@@ -102,7 +102,7 @@ namespace SampleConsoleApp
                     });
 
             appBuilder.UseDiginsightServiceProvider(); // ensure opentelemetry ActivitySource listeners are registered (TracerProvider and MeterProvider), Flusies deferredLogger
-            logger.LogDebug("appBuilder.UseDiginsightServiceProvider(); completed");
+            //logger.LogDebug("appBuilder.UseDiginsightServiceProvider(); completed");
             host = appBuilder.Build(); // logger.LogDebug("host = appBuilder.Build(); completed");
 
             var logger = host.Services.GetService<ILogger<Program>>();
