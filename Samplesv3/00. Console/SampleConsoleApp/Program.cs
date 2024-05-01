@@ -51,7 +51,7 @@ namespace SampleConsoleApp
                 .AddEnvironmentVariables()
                 .AddUserSecrets<Program>()
                 .Build();
-            logger.LogDebug("configuration: {Configuration}", configuration);
+            //logger.LogDebug("configuration: {Configuration}", configuration);
 
 
             var appBuilder = Host.CreateDefaultBuilder()
