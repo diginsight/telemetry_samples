@@ -10,7 +10,7 @@
     <Product>Diginsight</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/diginsight/telemetry</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/diginsight/telemetry_samples</PackageProjectUrl>
     <DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
     <DiginsightVersion>3.0.0-alpha.173</DiginsightVersion>
     <PackageTags>diginsight;telemetry</PackageTags>
