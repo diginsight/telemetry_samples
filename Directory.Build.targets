@@ -20,16 +20,35 @@
     </None>
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(DiginsightSolutionDirectory)' == ''">
-    <DiginsightDirectImport>false</DiginsightDirectImport>
+
+  <PropertyGroup Condition="'$(DiginsightSmartCacheDirectImport)' == ''">
+    <DiginsightSmartCacheDirectImport>false</DiginsightSmartCacheDirectImport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightLegacyDirectImport)' == ''">
+    <DiginsightLegacyDirectImport>false</DiginsightLegacyDirectImport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(CoreDirectImport)' == ''">
+    <CoreDirectImport>false</CoreDirectImport>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(DiginsightSolutionDirectory)' != ''">
-    <DiginsightSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightSolutionDirectory)'))</DiginsightSolutionDirectory>
+  <PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' == ''">
+    <DiginsightSmartCacheSolutionDirectory >..\..\..\..\smartcache\src\</DiginsightSmartCacheSolutionDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' == ''">
+    <DiginsightLegacySolutionDirectory >..\..\..\..\telemetry_legacy\</DiginsightLegacySolutionDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' == ''">
+    <CoreSolutionDirectory >..\..\..\..\telemetry\src\</CoreSolutionDirectory>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(DiginsightDirectImport)' == ''">
-    <DiginsightDirectImport>false</DiginsightDirectImport>
+  <PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' != ''">
+    <DiginsightSmartCacheSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightSmartCacheSolutionDirectory)'))</DiginsightSmartCacheSolutionDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' != ''">
+    <DiginsightLegacySolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightLegacySolutionDirectory)'))</DiginsightLegacySolutionDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(CoreSolutionDirectory)' != ''">
+    <CoreSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(CoreSolutionDirectory)'))</CoreSolutionDirectory>
   </PropertyGroup>
 
 </Project>

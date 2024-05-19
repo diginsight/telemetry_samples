@@ -51,13 +51,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Common.Diagnostics" Version="2.0.0.12" Condition="'$(UseDiginsightProjectReference)' != 'true'" />
-		<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(UseDiginsightProjectReference)' == 'true'" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Common.Diagnostics.Logstrings.Wpf" Version="1.0.2.19" />
-		<!--<ProjectReference Include="..\..\..\Common.Diagnostics.Logstrings.Wpf\Common.Diagnostics.Logstrings.Wpf.csproj" />-->
+    <PackageReference Include="Common.Diagnostics" Version="2.0.0.12" Condition="'$(DiginsightLegacyDirectImport)' != 'true'" />
+		<ProjectReference Include="$(DiginsightLegacySolutionDirectory)Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(DiginsightLegacyDirectImport)' == 'true'" />
+    <PackageReference Include="Common.Diagnostics.Logstrings.Wpf" Version="1.0.2.19" Condition="'$(DiginsightLegacyDirectImport)' != 'true'" />
+    <ProjectReference Include="$(DiginsightLegacySolutionDirectory)telemetry_legacy\Common.Diagnostics.Logstrings.Wpf\Common.Diagnostics.Logstrings.Wpf.csproj"  Condition="'$(DiginsightLegacyDirectImport)' == 'true'" />
 	</ItemGroup>
 
 	<ItemGroup>

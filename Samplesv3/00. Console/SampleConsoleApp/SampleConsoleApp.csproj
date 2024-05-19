@@ -22,12 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Core\Diginsight.Core.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
-    <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Diagnostics\Diginsight.Diagnostics.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
-    <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Diagnostics.Log4Net\Diginsight.Diagnostics.Log4Net.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
-    <PackageReference Include="Diginsight.Core" Version="$(DiginsightVersion)" Condition="'$(DiginsightDirectImport)' != 'true'" /> 
-    <PackageReference Include="Diginsight.Diagnostics" Version="$(DiginsightVersion)" Condition="'$(DiginsightDirectImport)' != 'true'" />
-    <PackageReference Include="Diginsight.Diagnostics.Log4Net" Version="$(DiginsightVersion)" Condition="'$(DiginsightDirectImport)' != 'true'" />
+    <PackageReference Include="Diginsight.Core" Version="$(DiginsightVersion)" Condition="'$(CoreDirectImport)' != 'true'" /> 
+    <PackageReference Include="Diginsight.Diagnostics" Version="$(DiginsightVersion)" Condition="'$(CoreDirectImport)' != 'true'" />
+    <PackageReference Include="Diginsight.Diagnostics.Log4Net" Version="$(DiginsightVersion)" Condition="'$(CoreDirectImport)' != 'true'" />
+    <ProjectReference Include="$(CoreSolutionDirectory)Diginsight.Core\Diginsight.Core.csproj" Condition="'$(CoreDirectImport)' == 'true'" />
+    <ProjectReference Include="$(CoreSolutionDirectory)Diginsight.Diagnostics.Log4Net\Diginsight.Diagnostics.Log4Net.csproj" Condition="'$(CoreDirectImport)' == 'true'" />
+    <ProjectReference Include="$(CoreSolutionDirectory)Diginsight.Diagnostics\Diginsight.Diagnostics.csproj" Condition="'$(CoreDirectImport)' == 'true'" />
   </ItemGroup>
 
   <ItemGroup>
