@@ -27,8 +27,8 @@
   <PropertyGroup Condition="'$(DiginsightLegacyDirectImport)' == ''">
     <DiginsightLegacyDirectImport>false</DiginsightLegacyDirectImport>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(CoreDirectImport)' == ''">
-    <CoreDirectImport>false</CoreDirectImport>
+  <PropertyGroup Condition="'$(DiginsightCoreDirectImport)' == ''">
+    <DiginsightCoreDirectImport>false</DiginsightCoreDirectImport>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' == ''">
@@ -37,8 +37,8 @@
   <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' == ''">
     <DiginsightLegacySolutionDirectory >..\..\..\..\telemetry_legacy\</DiginsightLegacySolutionDirectory>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' == ''">
-    <CoreSolutionDirectory >..\..\..\..\telemetry\src\</CoreSolutionDirectory>
+  <PropertyGroup Condition="'$(DiginsightCoreSolutionDirectory)' == ''">
+    <DiginsightCoreSolutionDirectory >..\..\..\..\telemetry\src\</DiginsightCoreSolutionDirectory>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' != ''">
@@ -47,8 +47,8 @@
   <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' != ''">
     <DiginsightLegacySolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightLegacySolutionDirectory)'))</DiginsightLegacySolutionDirectory>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(CoreSolutionDirectory)' != ''">
-    <CoreSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(CoreSolutionDirectory)'))</CoreSolutionDirectory>
+  <PropertyGroup Condition="'$(DiginsightCoreSolutionDirectory)' != ''">
+    <DiginsightCoreSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightCoreSolutionDirectory)'))</DiginsightCoreSolutionDirectory>
   </PropertyGroup>
 
 </Project>
