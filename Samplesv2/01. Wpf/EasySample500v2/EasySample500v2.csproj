@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<UseDiginsightProjectReference>false</UseDiginsightProjectReference>
+    <DiginsightLegacyDirectImport>false</DiginsightLegacyDirectImport>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -32,8 +32,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" Condition="'$(UseDiginsightProjectReference)' != 'true'" />
-		<ProjectReference Include="..\..\..\Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(UseDiginsightProjectReference)' == 'true'" />
+		<PackageReference Include="Common.Diagnostics" Version="$(DiginsightDiagnosticsVersion)" Condition="'$(DiginsightLegacyDirectImport)' != 'true'" />
+		<ProjectReference Include="$(DiginsightLegacySolutionDirectory)Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(DiginsightLegacyDirectImport)' == 'true'" />
 	</ItemGroup>
 	
 	<ItemGroup>

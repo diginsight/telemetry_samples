@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<UseDiginsightProjectReference>false</UseDiginsightProjectReference>
+		<DiginsightLegacyDirectImport>false</DiginsightLegacyDirectImport>
 	</PropertyGroup>
 
 	<ItemGroup>
