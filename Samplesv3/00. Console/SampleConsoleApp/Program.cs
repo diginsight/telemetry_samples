@@ -13,7 +13,6 @@ using OpenTelemetry.Trace;
 using System;
 using OpenTelemetry.Metrics;
 using log4net.Appender;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SampleConsoleApp
@@ -61,14 +60,14 @@ namespace SampleConsoleApp
                 var appBuilder = Host.CreateDefaultBuilder()
                         .ConfigureAppConfiguration(builder =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureAppConfigurationCallback", new { builder });
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
 
                             builder.Sources.Clear();
                             builder.AddConfiguration(configuration);
                         })
                         .ConfigureServices((context, services) =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureServicesCallback", new { context, services });
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
                             services.TryAddSingleton(deferredLoggerFactory);
                             services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
@@ -76,7 +75,7 @@ namespace SampleConsoleApp
                         })
                         .ConfigureLogging((context, loggingBuilder) =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureLoggingCallback", new { context, loggingBuilder });
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
 
                             loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
                             loggingBuilder.ClearProviders();
@@ -142,7 +141,7 @@ namespace SampleConsoleApp
                 logger.LogDebug("Sample app running section");
 
 
-                activity.SetOutput(1); // traces span output
+                activity?.SetOutput(1); // traces span output
             }
             return;
         }

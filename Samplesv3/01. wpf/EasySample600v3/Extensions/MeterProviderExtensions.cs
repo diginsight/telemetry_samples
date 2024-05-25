@@ -1,4 +1,3 @@
-using Common;
 using EasySample;
 using System;
 using System.Diagnostics.Metrics;
@@ -14,7 +13,7 @@ public static class MeterProviderExtensions
     
     public static MeterProviderBuilder AddViews(this MeterProviderBuilder builder, params (string, MetricStreamConfiguration)[] views)
     {
-        using var scope = TraceLogger.BeginMethodScope(CType, new { builder, views });
+        //using var scope = TraceLogger.BeginMethodScope(CType, new { builder, views });
 
         foreach (var (instrumentName, config) in views)
         {
@@ -26,7 +25,7 @@ public static class MeterProviderExtensions
 
     public static MeterProviderBuilder AddViews(this MeterProviderBuilder builder, params Func<Instrument, MetricStreamConfiguration?>[] views)
     {
-        using var scope = TraceLogger.BeginMethodScope(CType, new { builder, views });
+        //using var scope = TraceLogger.BeginMethodScope(CType, new { builder, views });
 
         foreach (var view in views)
         {
@@ -38,7 +37,7 @@ public static class MeterProviderExtensions
 
     public static MeterProviderBuilder AddViews(this MeterProviderBuilder builder, params (string, string)[] views)
     {
-        using var scope = TraceLogger.BeginMethodScope(CType, new { builder, views });
+        //using var scope = TraceLogger.BeginMethodScope(CType, new { builder, views });
 
         foreach (var (instrumentName, name) in views)
         {
@@ -51,7 +50,7 @@ public static class MeterProviderExtensions
     public static MeterProviderBuilder AddMetrics<T>(this MeterProviderBuilder builder)
         where T : CustomMetrics
     {
-        using var scope = TraceLogger.BeginMethodScope(CType, new { builder });
+        //using var scope = TraceLogger.BeginMethodScope(CType, new { builder });
         
         T customMetrics = (T)typeof(T).GetField("Instance", BindingFlags.Public | BindingFlags.Static)!.GetValue(null)!;
         builder.AddMeter(customMetrics.ObservabilityName);
