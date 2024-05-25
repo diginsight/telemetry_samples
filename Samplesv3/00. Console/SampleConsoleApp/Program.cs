@@ -39,26 +39,29 @@ namespace SampleConsoleApp
 
         private static async Task Main(string[] args)
         {
+            DiginsightDefaults.ActivitySource = ActivitySource;
+
             DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
             IDeferredLoggerFactory deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
             ILogger logger = deferredLoggerFactory.CreateLogger<Program>();
             ActivitySource deferredActivitySource = deferredLoggerFactory.ActivitySource;
 
-            using (deferredActivitySource.StartMethodActivity(logger, new { args }))
+            using (var activity = deferredActivitySource.StartMethodActivity(logger, new { args }))
             {
+                var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
                 var configuration = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                    .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
                     .AddEnvironmentVariables()
                     .AddUserSecrets<Program>()
                     .Build();
-                logger.LogDebug("configuration: {Configuration}", configuration);
-
+                logger.LogDebug($"var configuration = new ConfigurationBuilder()....Build() comleted");
+                logger.LogDebug("environment:{environment},configuration:{Configuration}", environment, configuration);
 
                 var appBuilder = Host.CreateDefaultBuilder()
                         .ConfigureAppConfiguration(builder =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureAppConfigurationCallback", new { builder }); 
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureAppConfigurationCallback", new { builder });
 
                             builder.Sources.Clear();
                             builder.AddConfiguration(configuration);
@@ -73,7 +76,7 @@ namespace SampleConsoleApp
                         })
                         .ConfigureLogging((context, loggingBuilder) =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureLoggingCallback", new { context, loggingBuilder }); 
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureLoggingCallback", new { context, loggingBuilder });
 
                             loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
                             loggingBuilder.ClearProviders();
@@ -128,15 +131,14 @@ namespace SampleConsoleApp
                             services.AddSingleton<Program>();
                         });
 
-                DiginsightDefaults.ActivitySource = ActivitySource;
                 appBuilder.UseDiginsightServiceProvider(); // ensure opentelemetry ActivitySource listeners are registered (TracerProvider and MeterProvider), Flusies deferredLogger
                 logger.LogDebug("appBuilder.UseDiginsightServiceProvider(); completed");
 
-                host = appBuilder.Build(); 
+                host = appBuilder.Build();
                 logger.LogDebug("host = appBuilder.Build(); completed");
 
-                logger = host.Services.GetService<ILogger<Program>>();
-                using var activity = Program.ActivitySource.StartMethodActivity(logger);
+                //logger = host.Services.GetService<ILogger<Program>>();
+                //using var activity = Program.ActivitySource.StartMethodActivity(logger);
                 logger.LogDebug("Sample app running section");
 
 
