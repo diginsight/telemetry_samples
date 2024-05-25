@@ -14,6 +14,7 @@ using System;
 using OpenTelemetry.Metrics;
 using log4net.Appender;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SampleConsoleApp
 {
@@ -38,8 +39,6 @@ namespace SampleConsoleApp
 
         private static async Task Main(string[] args)
         {
-            DiginsightDefaults.ActivitySource = ActivitySource;
-
             DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
             IDeferredLoggerFactory deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
             ILogger logger = deferredLoggerFactory.CreateLogger<Program>();
@@ -53,7 +52,7 @@ namespace SampleConsoleApp
                     .AddEnvironmentVariables()
                     .AddUserSecrets<Program>()
                     .Build();
-                //logger.LogDebug("configuration: {Configuration}", configuration);
+                logger.LogDebug("configuration: {Configuration}", configuration);
 
 
                 var appBuilder = Host.CreateDefaultBuilder()
@@ -66,8 +65,9 @@ namespace SampleConsoleApp
                         })
                         .ConfigureServices((context, services) =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureServicesCallback", new { context, services }); 
-                            //services.FlushOnCreateServiceProvider(deferredLoggerFactory);
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureServicesCallback", new { context, services });
+                            services.TryAddSingleton(deferredLoggerFactory);
+                            services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
                             ConfigureServices(context.Configuration, services);
                         })
@@ -124,13 +124,11 @@ namespace SampleConsoleApp
                                          }
                                      );
 
-
                             services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
-
                             services.AddSingleton<Program>();
-
                         });
 
+                DiginsightDefaults.ActivitySource = ActivitySource;
                 appBuilder.UseDiginsightServiceProvider(); // ensure opentelemetry ActivitySource listeners are registered (TracerProvider and MeterProvider), Flusies deferredLogger
                 logger.LogDebug("appBuilder.UseDiginsightServiceProvider(); completed");
 
