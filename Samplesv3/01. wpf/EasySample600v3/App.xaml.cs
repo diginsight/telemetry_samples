@@ -193,14 +193,6 @@ namespace EasySample
             var appSettingsSection = configuration.GetSection(nameof(AppSettings));
             var settings = appSettingsSection.Get<AppSettings>();
 
-            services.AddRefitClient<ITestCachePreload>()
-                .ConfigureHttpClient(client =>
-                {
-                    client.BaseAddress = new Uri(settings.CachePreload.BaseUrl);
-                    client.Timeout = TimeSpan.FromMinutes(25); // TODO: reduce and implement async handling on runaggregate!
-                })
-                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[] { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10) }));
-
             //services.AddApplicationInsightsTelemetry();
             //var aiConnectionString = configuration.GetValue<string>(Constants.APPINSIGHTSCONNECTIONSTRING);
             //services.AddObservability(configuration);

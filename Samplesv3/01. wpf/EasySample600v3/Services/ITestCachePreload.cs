@@ -11,12 +11,12 @@ namespace EasySample
         public Dictionary<string, string> Requests { get; set; }
     }
 
-    public interface ITestCachePreload
-    {
-        //[Headers("APIm KEY: sdadsadas")]
-        [Headers("Testnames: PreparePreloadRulesAsync,RunEquipmentsOnBehalfOfAsync")]
-        [Post("/api/v2/TestCachePreload/organization/{organizationId}/site/{siteId}/runall")] // /energy-api
-        public Task<ApiResponse<string>> RunAllTests(Guid organizationId, Guid siteId, [Body] TestPayload payload); // TestPayload [Body(BodySerializationMethod.Json)]
+    //public interface ITestCachePreload
+    //{
+    //    //[Headers("APIm KEY: sdadsadas")]
+    //    [Headers("Testnames: PreparePreloadRulesAsync,RunEquipmentsOnBehalfOfAsync")]
+    //    [Post("/api/v2/TestCachePreload/organization/{organizationId}/site/{siteId}/runall")] // /energy-api
+    //    public Task<ApiResponse<string>> RunAllTests(Guid organizationId, Guid siteId, [Body] TestPayload payload); // TestPayload [Body(BodySerializationMethod.Json)]
 
-    }
+    //}
 }

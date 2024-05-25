@@ -80,6 +80,7 @@
 
 	<ItemGroup>
 		<Folder Include="Extensions\" />
+		<Folder Include="Helpers\" />
 		<Folder Include="Services\" />
 	</ItemGroup>
 
