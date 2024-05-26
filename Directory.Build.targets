@@ -32,13 +32,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' == ''">
-    <DiginsightSmartCacheSolutionDirectory >..\..\..\..\smartcache\src\</DiginsightSmartCacheSolutionDirectory>
+    <DiginsightSmartCacheSolutionDirectory >E:\dev.darioa\Diginsight\smartcache\src\</DiginsightSmartCacheSolutionDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' == ''">
-    <DiginsightLegacySolutionDirectory >..\..\..\..\telemetry_legacy\</DiginsightLegacySolutionDirectory>
+    <DiginsightLegacySolutionDirectory >E:\dev.darioa\Diginsight\telemetry_legacy\</DiginsightLegacySolutionDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(DiginsightCoreSolutionDirectory)' == ''">
-    <DiginsightCoreSolutionDirectory >..\..\..\..\telemetry\src\</DiginsightCoreSolutionDirectory>
+    <DiginsightCoreSolutionDirectory >E:\dev.darioa\Diginsight\telemetry\src\</DiginsightCoreSolutionDirectory>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' != ''">
