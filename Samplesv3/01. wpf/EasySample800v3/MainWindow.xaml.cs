@@ -1,5 +1,6 @@
 ﻿#region using
 using Diginsight.Diagnostics;
+using EasySample600v2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -27,12 +28,12 @@ using System.Windows.Shapes;
 using Metrics = System.Collections.Generic.Dictionary<string, object>; // $$$
 #endregion
 
-namespace AuthenticationSample
+namespace EasySample
 {
     /// <summary>Interaction logic for MainWindow.xaml</summary>
     public partial class MainWindow : Window
     {
-        //private static ActivitySource source = new ActivitySource("AuthenticationSamplev3.MainWindow", "1.0.0");
+        //private static ActivitySource source = new ActivitySource("EasySamplev3.MainWindow", "1.0.0");
         static Type T = typeof(MainWindow);
         private ILogger<MainWindow> logger;
         //private IClassConfigurationGetter<MainWindow> classConfigurationGetter;
