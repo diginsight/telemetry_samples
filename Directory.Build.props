@@ -11,7 +11,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/diginsight/telemetry_samples</PackageProjectUrl>
-    <DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
+    <DiginsightDiagnosticsVersion>2.0.0.23</DiginsightDiagnosticsVersion>
     <DiginsightVersion>3.0.0-alpha.184</DiginsightVersion>
     <DiginsightSmartcacheVersion>33.0.0-alpha.185</DiginsightSmartcacheVersion>
     <PackageTags>diginsight;telemetry</PackageTags>

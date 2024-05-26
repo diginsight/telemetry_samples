@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasySample
+namespace EasySample800v3
 {
     public static class Constants
     {

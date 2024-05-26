@@ -28,7 +28,7 @@ using System.Windows.Shapes;
 using Metrics = System.Collections.Generic.Dictionary<string, object>; // $$$
 #endregion
 
-namespace EasySample
+namespace EasySample800v3
 {
     /// <summary>Interaction logic for MainWindow.xaml</summary>
     public partial class MainWindow : Window
