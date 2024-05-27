@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows7.0</TargetFramework>
+		<TargetFramework>net8.0-windows7.0</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<UserSecretsId>24d38bd0-a6a9-4190-8efa-894bedba7e23</UserSecretsId>
 	</PropertyGroup>
@@ -13,14 +13,10 @@
 
 	<ItemGroup>
 		<None Remove="appsettings.json" />
-		<None Remove="log4net.config" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Content Include="appsettings.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="log4net.config">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>

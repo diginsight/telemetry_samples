@@ -12,6 +12,8 @@ using OpenTelemetry;
 using OpenTelemetry.Trace;
 using System;
 using OpenTelemetry.Metrics;
+using log4net.Appender;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SampleConsoleApp
 {
@@ -36,83 +38,111 @@ namespace SampleConsoleApp
 
         private static async Task Main(string[] args)
         {
-            //DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true, };
-            //IDeferredLoggerFactory deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-            //var logger = deferredLoggerFactory.CreateLogger<Program>(); // this logger is deferred as configureLogging is not yet called
-
-            //ActivitySource deferredActivitySource = deferredLoggerFactory.ActivitySource; // this activitySource is deferred as configureLogging is not yet called
-            //using var deferredActivity = deferredActivitySource.StartMethodActivity(logger, new { args });
-
             DiginsightDefaults.ActivitySource = ActivitySource;
 
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables()
-                .AddUserSecrets<Program>()
-                .Build();
-            //logger.LogDebug("configuration: {Configuration}", configuration);
+            DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
+            IDeferredLoggerFactory deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
+            ILogger logger = deferredLoggerFactory.CreateLogger<Program>();
+            ActivitySource deferredActivitySource = deferredLoggerFactory.ActivitySource;
 
+            using (var activity = deferredActivitySource.StartMethodActivity(logger, new { args }))
+            {
+                var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
+                var configuration = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
+                    .AddEnvironmentVariables()
+                    .AddUserSecrets<Program>()
+                    .Build();
+                logger.LogDebug($"var configuration = new ConfigurationBuilder()....Build() comleted");
+                logger.LogDebug("environment:{environment},configuration:{Configuration}", environment, configuration);
 
-            var appBuilder = Host.CreateDefaultBuilder()
-                    .ConfigureAppConfiguration(builder =>
-                    {
-                        //using var innerActivity = deferredActivitySource.StartMethodActivity(logger, new { builder });
-                        builder.Sources.Clear();
-                        builder.AddConfiguration(configuration);
-                    })
-                    .ConfigureServices((context, services) =>
-                    {
-                        //using var innerActivity = deferredActivitySource.StartMethodActivity(logger, new { context, services });
-                        //services.FlushOnCreateServiceProvider(deferredLoggerFactory);
-                        
-                        ConfigureServices(context.Configuration, services);
-                    })
-                    .ConfigureLogging((context, loggingBuilder) =>
-                    {
-                        //using var innerActivity = deferredActivitySource.StartMethodActivity(logger, new { context, loggingBuilder });
+                var appBuilder = Host.CreateDefaultBuilder()
+                        .ConfigureAppConfiguration(builder =>
+                        {
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
 
-                        loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
+                            builder.Sources.Clear();
+                            builder.AddConfiguration(configuration);
+                        })
+                        .ConfigureServices((context, services) =>
+                        {
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
+                            services.TryAddSingleton(deferredLoggerFactory);
+                            services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
-                        loggingBuilder.ClearProviders();
+                            ConfigureServices(context.Configuration, services);
+                        })
+                        .ConfigureLogging((context, loggingBuilder) =>
+                        {
+                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
 
-                        var services = loggingBuilder.Services;
-                        services.AddLogging(
-                                     loggingBuilder =>
-                                     {
-                                         loggingBuilder.ClearProviders();
+                            loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
+                            loggingBuilder.ClearProviders();
 
-                                         if (configuration.GetValue("AppSettings:ConsoleProviderEnabled", true))
+                            var services = loggingBuilder.Services;
+                            services.AddLogging(
+                                         loggingBuilder =>
                                          {
-                                             loggingBuilder.AddDiginsightConsole();
+                                             loggingBuilder.ClearProviders();
+
+                                             if (configuration.GetValue("AppSettings:ConsoleProviderEnabled", true))
+                                             {
+                                                 loggingBuilder.AddDiginsightConsole();
+                                             }
+
+                                             if (configuration.GetValue("AppSettings:Log4NetProviderEnabled", true))
+                                             {
+                                                 //loggingBuilder.AddDiginsightLog4Net("log4net.config");
+                                                 loggingBuilder.AddDiginsightLog4Net(static sp =>
+                                                                                     {
+                                                                                         IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
+                                                                                         string fileBaseDir = env.IsDevelopment()
+                                                                                             ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile, Environment.SpecialFolderOption.DoNotVerify)
+                                                                                             : $"{Path.DirectorySeparatorChar}home";
+
+                                                                                         return new IAppender[]
+                                                                                         {
+                                                                                            new RollingFileAppender()
+                                                                                            {
+                                                                                                File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(Program).Namespace!),
+                                                                                                AppendToFile = true,
+                                                                                                StaticLogFileName = false,
+                                                                                                RollingStyle = RollingFileAppender.RollingMode.Composite,
+                                                                                                DatePattern = @".yyyyMMdd.\l\o\g",
+                                                                                                MaxSizeRollBackups = 1000,
+                                                                                                MaximumFileSize = "100MB",
+                                                                                                LockingModel = new FileAppender.MinimalLock(),
+                                                                                                Layout = new DiginsightLayout()
+                                                                                                {
+                                                                                                    Pattern = "{Timestamp} {Category} {LogLevel} {TraceId} {Delta} {Duration} {Depth} {Indentation|-1} {Message}",
+                                                                                                },
+                                                                                            },
+                                                                                         };
+                                                                                     },
+                                                                                     static _ => log4net.Core.Level.All
+                                                                                 );
+                                             }
                                          }
+                                     );
 
-                                         if (configuration.GetValue("AppSettings:Log4NetProviderEnabled", true))
-                                         {
-                                             loggingBuilder.AddDiginsightLog4Net("log4net.config");
-                                         }
-                                     }
-                                 );
+                            services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
+                            services.AddSingleton<Program>();
+                        });
 
+                appBuilder.UseDiginsightServiceProvider(); // ensure opentelemetry ActivitySource listeners are registered (TracerProvider and MeterProvider), Flusies deferredLogger
+                logger.LogDebug("appBuilder.UseDiginsightServiceProvider(); completed");
 
-                        services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
+                host = appBuilder.Build();
+                logger.LogDebug("host = appBuilder.Build(); completed");
 
-                        services.AddSingleton<Program>();
-
-                    });
-
-            appBuilder.UseDiginsightServiceProvider(); // ensure opentelemetry ActivitySource listeners are registered (TracerProvider and MeterProvider), Flusies deferredLogger
-            //logger.LogDebug("appBuilder.UseDiginsightServiceProvider(); completed");
-            host = appBuilder.Build(); // logger.LogDebug("host = appBuilder.Build(); completed");
-
-            var logger = host.Services.GetService<ILogger<Program>>();
-
-            using var activity = Program.ActivitySource.StartMethodActivity(logger);
-
-            logger.LogDebug("Sample app running section");
+                //logger = host.Services.GetService<ILogger<Program>>();
+                //using var activity = Program.ActivitySource.StartMethodActivity(logger);
+                logger.LogDebug("Sample app running section");
 
 
-            activity.SetOutput(1); // traces span output
+                activity?.SetOutput(1); // traces span output
+            }
             return;
         }
 

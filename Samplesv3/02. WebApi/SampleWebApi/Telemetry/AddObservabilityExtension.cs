@@ -173,12 +173,11 @@ public static class AddObservabilityExtension
                         .AddSource(openTelemetryOptions.ActivitySources.ToArray())
                         .AddSource(Program.ActivitySource.Name)
                         .SetErrorStatusOnException()
-                        .SetSampler(
+                        .SetHttpHeadersSampler(
                             static sp =>
                             {
                                 OpenTelemetryOptions openTelemetryOptions = sp.GetRequiredService<IOptions<OpenTelemetryOptions>>().Value;
-                                Sampler decoratee = new ParentBasedSampler(new TraceIdRatioBasedSampler(openTelemetryOptions.TracingSamplingRatio));
-                                return ActivatorUtilities.CreateInstance<HttpHeadersSampler>(sp, decoratee);
+                                return new ParentBasedSampler(new TraceIdRatioBasedSampler(openTelemetryOptions.TracingSamplingRatio));
                             }
                         );
 
