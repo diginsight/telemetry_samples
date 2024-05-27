@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E084CA0-E8DE-49F1-826D-1E51C8399EB2}"
 	ProjectSection(SolutionItems) = preProject
 		.filenesting.json = .filenesting.json
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_ext", "_ext", "{1DBBED92-BD24-4C18-B63F-E699E95FB2AA}"
@@ -26,15 +28,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Console", "00. Console"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Linqpad", "00. Linqpad", "{90518A07-C4AF-439B-AFF6-E6B5D5628D5C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Core", "..\telemetry\Diginsight.Core\Diginsight.Core.csproj", "{00FC4E01-1188-465C-BE5D-CC7B0F322CD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Core", "..\telemetry\src\Diginsight.Core\Diginsight.Core.csproj", "{00FC4E01-1188-465C-BE5D-CC7B0F322CD0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.AspNetCore", "..\telemetry\Diginsight.AspNetCore\Diginsight.AspNetCore.csproj", "{D15F833B-C6B1-4D53-B488-70644DC5FD6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.AspNetCore", "..\telemetry\src\Diginsight.AspNetCore\Diginsight.AspNetCore.csproj", "{D15F833B-C6B1-4D53-B488-70644DC5FD6F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics", "..\telemetry\Diginsight.Diagnostics\Diginsight.Diagnostics.csproj", "{FFB2D1EA-0F80-44FB-A6A4-8B79B06EEBD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics", "..\telemetry\src\Diginsight.Diagnostics\Diginsight.Diagnostics.csproj", "{FFB2D1EA-0F80-44FB-A6A4-8B79B06EEBD7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.Log4Net", "..\telemetry\Diginsight.Diagnostics.Log4Net\Diginsight.Diagnostics.Log4Net.csproj", "{AFC27BB9-D3E2-4BF9-B619-9B18D31C5022}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.Log4Net", "..\telemetry\src\Diginsight.Diagnostics.Log4Net\Diginsight.Diagnostics.Log4Net.csproj", "{AFC27BB9-D3E2-4BF9-B619-9B18D31C5022}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.SmartCache", "..\telemetry\Diginsight.SmartCache\Diginsight.SmartCache.csproj", "{2EC7D735-F2AF-48B7-9C60-722993872EC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.SmartCache", "..\smartcache\src\Diginsight.SmartCache\Diginsight.SmartCache.csproj", "{2EC7D735-F2AF-48B7-9C60-722993872EC4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleConsoleApp", "Samplesv3\00. Console\SampleConsoleApp\SampleConsoleApp.csproj", "{CC098EAF-8CF1-444A-B20F-0AE70022AC06}"
 EndProject
@@ -42,13 +44,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. WebAPI", "02. WebAPI", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApi", "Samplesv3\02. WebApi\SampleWebApi\SampleWebApi.csproj", "{6B6CB485-1A5E-4D0C-A851-5A842DEB31E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.AspNetCore", "..\telemetry\Diginsight.Diagnostics.AspNetCore\Diginsight.Diagnostics.AspNetCore.csproj", "{EC49498C-543F-41C6-A169-D0762696FCD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.AspNetCore", "..\telemetry\src\Diginsight.Diagnostics.AspNetCore\Diginsight.Diagnostics.AspNetCore.csproj", "{EC49498C-543F-41C6-A169-D0762696FCD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.AspNetCore.OpenTelemetry", "..\telemetry\Diginsight.Diagnostics.AspNetCore.OpenTelemetry\Diginsight.Diagnostics.AspNetCore.OpenTelemetry.csproj", "{C16A635B-FA0E-432C-B509-3B4E18F8D72D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.AspNetCore.OpenTelemetry", "..\telemetry\src\Diginsight.Diagnostics.AspNetCore.OpenTelemetry\Diginsight.Diagnostics.AspNetCore.OpenTelemetry.csproj", "{C16A635B-FA0E-432C-B509-3B4E18F8D72D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.OpenTelemetry", "..\telemetry\Diginsight.Diagnostics.OpenTelemetry\Diginsight.Diagnostics.OpenTelemetry.csproj", "{E7D24304-6095-4C5D-8B71-BC284F735130}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.OpenTelemetry", "..\telemetry\src\Diginsight.Diagnostics.OpenTelemetry\Diginsight.Diagnostics.OpenTelemetry.csproj", "{E7D24304-6095-4C5D-8B71-BC284F735130}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Polyfills", "..\telemetry\Diginsight.Polyfills\Diginsight.Polyfills.csproj", "{51C4695D-AEE5-4AC5-A96D-A2725E9C978D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Polyfills", "..\telemetry\src\Diginsight.Polyfills\Diginsight.Polyfills.csproj", "{51C4695D-AEE5-4AC5-A96D-A2725E9C978D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
