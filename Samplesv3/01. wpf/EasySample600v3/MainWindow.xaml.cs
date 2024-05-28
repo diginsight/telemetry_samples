@@ -42,7 +42,10 @@ namespace EasySample
 
         static MainWindow()
         {
-            var host = App.Host;
+            //var host = App.Host;
+            //ILogger<MainWindow> logger = App.DeferredLoggerFactory.GetRequiredService<ILogger<MainWindow>>();
+            //using var activity = App.ActivitySource.StartMethodActivity(logger, new { logger });
+
             //using var scope = host.BeginMethodScope<MainWindow>();
             //using Activity activity = TraceLogger.ActivitySource.StartActivity();
             ////using var scope = TraceLogger.ActivitySource.StartMethodActivity(logger);
