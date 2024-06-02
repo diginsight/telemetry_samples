@@ -42,10 +42,10 @@ namespace SampleConsoleApp
 
             DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
             IDeferredLoggerFactory deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
+            deferredLoggerFactory.ActivitySources.Add(ActivitySource);
             ILogger logger = deferredLoggerFactory.CreateLogger<Program>();
-            ActivitySource deferredActivitySource = deferredLoggerFactory.ActivitySource;
 
-            using (var activity = deferredActivitySource.StartMethodActivity(logger, new { args }))
+            using (var activity = ActivitySource.StartMethodActivity(logger, new { args }))
             {
                 var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
                 var configuration = new ConfigurationBuilder()
@@ -60,14 +60,14 @@ namespace SampleConsoleApp
                 var appBuilder = Host.CreateDefaultBuilder()
                         .ConfigureAppConfiguration(builder =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
+                            using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
 
                             builder.Sources.Clear();
                             builder.AddConfiguration(configuration);
                         })
                         .ConfigureServices((context, services) =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
+                            using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
                             services.TryAddSingleton(deferredLoggerFactory);
                             services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
@@ -75,7 +75,7 @@ namespace SampleConsoleApp
                         })
                         .ConfigureLogging((context, loggingBuilder) =>
                         {
-                            using var innerActivity = deferredActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
+                            using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
 
                             loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
                             loggingBuilder.ClearProviders();
