@@ -1,56 +1,67 @@
 <Project>
 
-	<PropertyGroup>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<LangVersion>11</LangVersion>
-		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>11</LangVersion>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-		<Authors>diginsight</Authors>
-		<Product>Diginsight</Product>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-		<PackageProjectUrl>https://github.com/diginsight/telemetry_samples</PackageProjectUrl>
-		
-		<PackageTags>diginsight;telemetry</PackageTags>
-		<!-- TODO <PackageIcon> -->
-		<!-- TODO <Description> in each csproj -->
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <Authors>diginsight</Authors>
+    <Product>Diginsight</Product>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/diginsight/telemetry_samples</PackageProjectUrl>
+    
+    <DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
+    <DiginsightCoreVersion>3.0.0-alpha.183</DiginsightCoreVersion>
+    <DiginsightSmartcacheVersion>3.0.0-alpha.184</DiginsightSmartcacheVersion>
+    <PackageTags>diginsight;telemetry</PackageTags>
+    <!-- TODO <PackageIcon> -->
+    <!-- TODO <Description> in each csproj -->
 
-		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)diginsight.snk</AssemblyOriginatorKeyFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-		<OpenTelemetryVersion>1.*</OpenTelemetryVersion>
-		<OpenTelemetryBetaVersion>1.5.*-*</OpenTelemetryBetaVersion>
-		
-		<DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
-		<DiginsightCoreVersion>3.0.0-alpha.184</DiginsightCoreVersion>
-		<DiginsightSmartCacheVersion>3.0.0-alpha.185</DiginsightSmartCacheVersion>
-		<!--<DiginsightCoreVersion>3.0.0-alpha.175</DiginsightCoreVersion>-->
-	</PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)diginsight.snk</AssemblyOriginatorKeyFile>
 
-	<Import Project="$(MSBuildThisFileDirectory)Directory.build.props.user" Condition="Exists('$(MSBuildThisFileDirectory)Directory.build.props.user')" />
+    <OpenTelemetryVersion>1.*</OpenTelemetryVersion>
+    <OpenTelemetryBetaVersion>1.5.*-*</OpenTelemetryBetaVersion>
 
-	<PropertyGroup Condition="'$(DiginsightCoreSolutionDirectory)' == ''">
-		<DiginsightCoreDirectImport>false</DiginsightCoreDirectImport>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(DiginsightCoreSolutionDirectory)' != ''">
-		<DiginsightCoreSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightCoreSolutionDirectory)'))</DiginsightCoreSolutionDirectory>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(DiginsightCoreDirectImport)' == ''">
-		<DiginsightCoreDirectImport>false</DiginsightCoreDirectImport>
-	</PropertyGroup>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' == ''">
-		<DiginsightSmartCacheDirectImport>false</DiginsightSmartCacheDirectImport>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' != ''">
-		<DiginsightSmartCacheSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightSmartCacheSolutionDirectory)'))</DiginsightSmartCacheSolutionDirectory>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(DiginsightSmartCacheDirectImport)' == ''">
-		<DiginsightSmartCacheDirectImport>false</DiginsightSmartCacheDirectImport>
-	</PropertyGroup>
+  <Import Project="$(MSBuildThisFileDirectory)Directory.build.props.user" Condition="Exists('$(MSBuildThisFileDirectory)Directory.build.props.user')" />
+
+  <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' == ''">
+    <DiginsightLegacyDirectImport>false</DiginsightLegacyDirectImport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' != ''">
+    <DiginsightLegacySolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightLegacySolutionDirectory)'))</DiginsightLegacySolutionDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightLegacyDirectImport)' == ''">
+    <DiginsightLegacyDirectImport>false</DiginsightLegacyDirectImport>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(DiginsightCoreSolutionDirectory)' == ''">
+    <DiginsightCoreDirectImport>false</DiginsightCoreDirectImport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightCoreSolutionDirectory)' != ''">
+    <DiginsightCoreSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightCoreSolutionDirectory)'))</DiginsightCoreSolutionDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightCoreDirectImport)' == ''">
+    <DiginsightCoreDirectImport>false</DiginsightCoreDirectImport>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' == ''">
+    <DiginsightSmartCacheDirectImport>false</DiginsightSmartCacheDirectImport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightSmartCacheSolutionDirectory)' != ''">
+    <DiginsightSmartCacheSolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightSmartCacheSolutionDirectory)'))</DiginsightSmartCacheSolutionDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(DiginsightSmartCacheDirectImport)' == ''">
+    <DiginsightSmartCacheDirectImport>false</DiginsightSmartCacheDirectImport>
+  </PropertyGroup>
+
 </Project>

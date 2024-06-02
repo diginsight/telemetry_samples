@@ -49,11 +49,10 @@ namespace EasySample
     public partial class App : Application
     {
         private const string CONFIGVALUE_APPINSIGHTSKEY = "AppInsightsKey", DEFAULTVALUE_APPINSIGHTSKEY = "";
-        
+
         private static readonly IDeferredLoggerFactory DeferredLoggerFactory;
         internal static ILoggerFactory LoggerFactory { get; private set; }
-        
-        internal static readonly ActivitySource DeferredActivitySource; // = new(typeof(App).Namespace ?? typeof(App).Name!);
+
         internal static readonly ActivitySource ActivitySource = new(typeof(App).Namespace ?? typeof(App).Name!);
         
         private IHost host;
@@ -62,12 +61,15 @@ namespace EasySample
         static App()
         {
             DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
-            LoggerFactory = DeferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
+            var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
+            LoggerFactory = DeferredLoggerFactory = deferredLoggerFactory;
 
-            var logger = DeferredLoggerFactory.CreateLogger<App>();
-            DeferredActivitySource = DeferredLoggerFactory.ActivitySource;
+            var logger = LoggerFactory.CreateLogger<App>();
+            deferredLoggerFactory.ActivitySources.Add(ActivitySource);
 
-            using var activity = DeferredActivitySource.StartMethodActivity(logger);
+            //ActivitySource = DeferredLoggerFactory.ActivitySource;
+
+            using var activity = ActivitySource.StartMethodActivity(logger);
 
             try
             {
@@ -83,7 +85,7 @@ namespace EasySample
         public App()
         {
             var logger = LoggerFactory.CreateLogger<App>();
-            using var activity = DeferredActivitySource.StartMethodActivity(logger);
+            using var activity = ActivitySource.StartMethodActivity(logger);
 
             //var logger = Host.Services.GetRequiredService<ILogger<App>>();
             //using var activity = ActivitySource.StartMethodActivity(logger, new { });
@@ -92,7 +94,7 @@ namespace EasySample
         protected override async void OnStartup(StartupEventArgs e)
         {
             var logger = LoggerFactory.CreateLogger<App>();
-            using (var activity = DeferredActivitySource.StartMethodActivity(logger))
+            using (var activity = ActivitySource.StartMethodActivity(logger))
             {
                 var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
                 var configuration = new ConfigurationBuilder()
@@ -107,7 +109,7 @@ namespace EasySample
                 host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
                     .ConfigureAppConfiguration(builder =>
                     {
-                        using var innerActivity = DeferredActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
+                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
 
                         builder.Sources.Clear();
                         builder.AddConfiguration(configuration);
@@ -115,14 +117,14 @@ namespace EasySample
                         builder.AddEnvironmentVariables();
                     }).ConfigureServices((context, services) =>
                     {
-                        using var innerActivity = DeferredActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
+                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
                         services.FlushOnCreateServiceProvider(DeferredLoggerFactory);
 
                         ConfigureServices(context.Configuration, services, logger);
                     })
                     .ConfigureLogging((context, loggingBuilder) =>
                     {
-                        using var innerActivity = DeferredActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
+                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
 
                         loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
                         loggingBuilder.ClearProviders();
@@ -196,7 +198,7 @@ namespace EasySample
         }
         private void ConfigureServices(IConfiguration configuration, IServiceCollection services, ILogger logger)
         {
-            using var activity = DeferredActivitySource.StartMethodActivity(logger, new { configuration, services });
+            using var activity = ActivitySource.StartMethodActivity(logger, new { configuration, services });
 
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpContextAccessor();
