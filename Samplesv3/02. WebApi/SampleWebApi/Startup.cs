@@ -6,6 +6,7 @@ using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Text.Json.Serialization;
+using Diginsight.Diagnostics;
 
 namespace SampleWebApi
 {
@@ -13,11 +14,16 @@ namespace SampleWebApi
     {
         private static readonly string SmartCacheServiceBusSubscriptionName = Guid.NewGuid().ToString("N");
 
+        private readonly IDeferredLoggerFactory deferredLoggerFactory;
+        private readonly ILogger logger;
         private readonly IConfiguration configuration;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IDeferredLoggerFactory deferredLoggerFactory)
         {
             this.configuration = configuration;
+
+            this.deferredLoggerFactory = deferredLoggerFactory;
+            this.logger = this.deferredLoggerFactory.CreateLogger<Startup>();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -25,6 +31,7 @@ namespace SampleWebApi
             services.AddHttpContextAccessor();
             services.AddObservability(configuration);
             services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
+            services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
             services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("FeatureManagement"))
                 .PostConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();

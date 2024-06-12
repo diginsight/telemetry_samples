@@ -7,6 +7,8 @@ using Diginsight.CAOptions;
 using Diginsight.Diagnostics;
 using Diginsight.Diagnostics.AspNetCore;
 using Diginsight.Diagnostics.Log4Net;
+using log4net.Appender;
+using log4net.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using OpenTelemetry;
@@ -30,7 +32,6 @@ public static class AddObservabilityExtension
         OpenTelemetryOptions openTelemetryOptions = new();
         openTelemetryConfiguration.Bind(openTelemetryOptions);
         services.Configure<OpenTelemetryOptions>(openTelemetryConfiguration);
-        services.PostConfigureFromHttpRequestHeaders<OpenTelemetryOptions>();
 
         services.TryAddSingleton<IActivityLoggingSampler, HttpHeadersActivityLoggingSampler>();
         services.Decorate<IActivityLoggingSampler, MyActivityLoggingSampler>();
@@ -46,6 +47,14 @@ public static class AddObservabilityExtension
         services.TryAddEnumerable(
             ServiceDescriptor.Singleton<IActivityListenerRegistration, ActivitySourceDetectorRegistration>());
 
+        services.Configure<DiginsightDistributedContextOptions>(
+            static x =>
+            {
+                x.NonBaggageKeys.UnionWith(HttpHeadersActivityLoggingSampler.HeaderNames);
+                x.NonBaggageKeys.UnionWith(HttpHeadersSpanDurationMetricRecorderSettings.HeaderNames);
+            }
+        );
+
         var azureMonitorConnectionString = configuration["ApplicationInsights:ConnectionString"];
         services.AddLogging(
             loggingBuilder =>
@@ -59,7 +68,36 @@ public static class AddObservabilityExtension
 
                 if (configuration.GetValue("AppSettings:Log4NetProviderEnabled", false))
                 {
-                    loggingBuilder.AddDiginsightLog4Net("log4net.config");
+                    //loggingBuilder.AddDiginsightLog4Net("log4net.config");
+                    loggingBuilder.AddDiginsightLog4Net(
+                        static sp =>
+                        {
+                            IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
+                            string fileBaseDir = env.IsDevelopment()
+                                ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile, Environment.SpecialFolderOption.DoNotVerify)
+                                : $"{Path.DirectorySeparatorChar}home";
+
+                            return new IAppender[]
+                            {
+                                new RollingFileAppender()
+                                {
+                                    File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(Program).Namespace!),
+                                    AppendToFile = true,
+                                    StaticLogFileName = false,
+                                    RollingStyle = RollingFileAppender.RollingMode.Composite,
+                                    DatePattern = @".yyyyMMdd.\l\o\g",
+                                    MaxSizeRollBackups = 1000,
+                                    MaximumFileSize = "100MB",
+                                    LockingModel = new FileAppender.MinimalLock(),
+                                    Layout = new DiginsightLayout()
+                                    {
+                                        Pattern = "{Timestamp} {Category} {LogLevel} {TraceId} {Delta} {Duration} {Depth} {Indentation|-1} {Message}",
+                                    },
+                                },
+                            };
+                        },
+                        static _ => Level.All
+                    );
                 }
 
                 if (!string.IsNullOrEmpty(azureMonitorConnectionString))
