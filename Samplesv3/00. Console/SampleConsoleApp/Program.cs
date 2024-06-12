@@ -21,12 +21,11 @@ namespace SampleConsoleApp
     {
         internal static ILoggerFactory LoggerFactory { get; private set; }
         internal static readonly ActivitySource ActivitySource = new(typeof(Program).Namespace ?? typeof(Program).Name!);
-        private static readonly JsonSerializerOptions MyJsonSerializerOptions = new(JsonSerializerOptions.Default) { ReadCommentHandling = JsonCommentHandling.Skip };
-
-        public static IHost host;
         private readonly ILogger logger;
+
+        private static readonly JsonSerializerOptions MyJsonSerializerOptions = new(JsonSerializerOptions.Default) { ReadCommentHandling = JsonCommentHandling.Skip };
+        public static IHost host;
         private readonly IConfiguration configuration;
-        private readonly ILoggerFactory loggerFactory;
         private readonly IFileProvider fileProvider;
 
         public Program(ILogger<Program> logger, IConfiguration configuration, ILoggerFactory loggerFactory, IFileProvider fileProvider)
@@ -40,9 +39,9 @@ namespace SampleConsoleApp
             using var activity = ActivitySource.StartMethodActivity(logger);
             try
             {
+                LoggerFactory = loggerFactory;
                 this.logger = logger;
                 this.configuration = configuration;
-                this.loggerFactory = loggerFactory;
                 this.fileProvider = fileProvider;
             }
             catch (Exception /*ex*/) { /*sec.Exception(ex);*/ }

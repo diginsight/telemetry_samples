@@ -11,10 +11,11 @@
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/diginsight/telemetry_samples</PackageProjectUrl>
-		
+
 		<PackageTags>diginsight;telemetry</PackageTags>
 		<!-- TODO <PackageIcon> -->
 		<!-- TODO <Description> in each csproj -->
+
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -25,14 +26,23 @@
 
 		<OpenTelemetryVersion>1.*</OpenTelemetryVersion>
 		<OpenTelemetryBetaVersion>1.5.*-*</OpenTelemetryBetaVersion>
-		
+
 		<DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
 		<DiginsightCoreVersion>3.0.0-alpha.191</DiginsightCoreVersion>
 		<DiginsightSmartcacheVersion>3.0.0-alpha.191</DiginsightSmartcacheVersion>
-		<!--<DiginsightCoreVersion>3.0.0-alpha.175</DiginsightCoreVersion>-->
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)Directory.build.props.user" Condition="Exists('$(MSBuildThisFileDirectory)Directory.build.props.user')" />
+
+	<PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' == ''">
+		<DiginsightLegacyDirectImport>false</DiginsightLegacyDirectImport>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(DiginsightLegacySolutionDirectory)' != ''">
+		<DiginsightLegacySolutionDirectory>$([MSBuild]::EnsureTrailingSlash('$(DiginsightLegacySolutionDirectory)'))</DiginsightLegacySolutionDirectory>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(DiginsightLegacyDirectImport)' == ''">
+		<DiginsightLegacyDirectImport>false</DiginsightLegacyDirectImport>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(DiginsightCoreSolutionDirectory)' == ''">
 		<DiginsightCoreDirectImport>false</DiginsightCoreDirectImport>
@@ -53,4 +63,5 @@
 	<PropertyGroup Condition="'$(DiginsightSmartCacheDirectImport)' == ''">
 		<DiginsightSmartCacheDirectImport>false</DiginsightSmartCacheDirectImport>
 	</PropertyGroup>
+
 </Project>
