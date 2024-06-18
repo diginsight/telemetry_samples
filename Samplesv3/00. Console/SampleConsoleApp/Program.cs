@@ -19,7 +19,7 @@ namespace SampleConsoleApp
 {
     internal class Program
     {
-        internal static ILoggerFactory LoggerFactory { get; private set; }
+        public static ILoggerFactory LoggerFactory;
         internal static readonly ActivitySource ActivitySource = new(typeof(Program).Namespace ?? typeof(Program).Name!);
         private readonly ILogger logger;
 
@@ -33,8 +33,7 @@ namespace SampleConsoleApp
             DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
             var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
             deferredLoggerFactory.ActivitySources.Add(ActivitySource);
-            LoggerFactory = deferredLoggerFactory;
-            logger = LoggerFactory.CreateLogger<Program>();
+            logger = deferredLoggerFactory.CreateLogger<Program>();
 
             using var activity = ActivitySource.StartMethodActivity(logger);
             try
@@ -49,7 +48,7 @@ namespace SampleConsoleApp
 
         private static async Task Main(string[] args)
         {
-            DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
+            var activitiesOptions = new DiginsightActivitiesOptions() { LogActivities = true };
             var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
             deferredLoggerFactory.ActivitySources.Add(ActivitySource);
             LoggerFactory = deferredLoggerFactory;
@@ -78,7 +77,7 @@ namespace SampleConsoleApp
                     .ConfigureServices((context, services) =>
                     {
                         using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
-                        services.TryAddSingleton(deferredLoggerFactory);
+                        services.TryAddSingleton(LoggerFactory);
                         services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
                         ConfigureServices(context.Configuration, services);
