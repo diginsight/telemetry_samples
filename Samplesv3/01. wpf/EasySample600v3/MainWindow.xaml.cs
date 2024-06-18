@@ -1,6 +1,7 @@
 ﻿#region using
 using Diginsight.Diagnostics;
 using EasySample600v2;
+using EasySample600v3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -44,7 +45,7 @@ namespace EasySample
         {
             //var host = App.Host;
             //ILogger<MainWindow> logger = App.DeferredLoggerFactory.GetRequiredService<ILogger<MainWindow>>();
-            //using var activity = App.ActivitySource.StartMethodActivity(logger, new { logger });
+            //using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { logger });
 
             //using var scope = host.BeginMethodScope<MainWindow>();
             //using Activity activity = TraceLogger.ActivitySource.StartActivity();
@@ -59,13 +60,13 @@ namespace EasySample
         public MainWindow(ILogger<MainWindow> logger)
         {
             this.logger = logger;
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { logger });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { logger });
 
             InitializeComponent();
         }
         private async void MainWindow_Initialized(object sender, EventArgs e)
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { sender, e });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { sender, e });
 
             //classConfigurationGetter.Get("SampleConfig", "");
             sampleMethod();
@@ -109,7 +110,7 @@ namespace EasySample
         }
         void sampleMethod()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { });
 
             logger.LogDebug("pippo");
 
@@ -118,7 +119,7 @@ namespace EasySample
         int i = 0;
         private void btnRun_Click(object sender, RoutedEventArgs e)
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { sender, e });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { sender, e });
 
             try
             {
@@ -130,7 +131,7 @@ namespace EasySample
 
         public int SampleMethodWithResult(int i, string s)
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { i, s });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { i, s });
 
             var result = 0;
 
@@ -145,7 +146,7 @@ namespace EasySample
         }
         public void SampleMethod()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
             Thread.Sleep(100);
             SampleMethodNested();
@@ -154,19 +155,19 @@ namespace EasySample
         }
         public void SampleMethodNested()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
             Thread.Sleep(100);
         }
         public void SampleMethodNested1()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
                 
             Thread.Sleep(10);
         }
         async Task<bool> sampleMethod1Async()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
             var res = true;
 

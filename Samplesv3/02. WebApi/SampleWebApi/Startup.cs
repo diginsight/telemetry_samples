@@ -14,9 +14,9 @@ namespace SampleWebApi
     {
         private static readonly string SmartCacheServiceBusSubscriptionName = Guid.NewGuid().ToString("N");
 
-        private readonly IDeferredLoggerFactory deferredLoggerFactory;
-        private readonly ILogger logger;
         private readonly IConfiguration configuration;
+        private readonly ILogger logger;
+        private readonly IDeferredLoggerFactory deferredLoggerFactory;
 
         public Startup(IConfiguration configuration, IDeferredLoggerFactory deferredLoggerFactory)
         {
@@ -24,10 +24,14 @@ namespace SampleWebApi
 
             this.deferredLoggerFactory = deferredLoggerFactory;
             this.logger = this.deferredLoggerFactory.CreateLogger<Startup>();
+        
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var logger = deferredLoggerFactory.CreateLogger<Startup>();
+            using var innerActivity = Observability.ActivitySource.StartMethodActivity(logger, new { services });
+
             services.AddHttpContextAccessor();
             services.AddObservability(configuration);
             services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
@@ -88,6 +92,9 @@ namespace SampleWebApi
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var logger = deferredLoggerFactory.CreateLogger<Startup>();
+            using var innerActivity = Observability.ActivitySource.StartMethodActivity(logger, new { app, env });
+
             if (env.IsDevelopment())
             {
                 //IdentityModelEventSource.ShowPII = true;
