@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Core\Diginsight.Core.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
+	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" />
+	  <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Core\Diginsight.Core.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
     <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Diagnostics\Diginsight.Diagnostics.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
     <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Diagnostics.AspNetCore.OpenTelemetry\Diginsight.Diagnostics.AspNetCore.OpenTelemetry.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
     <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Diagnostics.Log4Net\Diginsight.Diagnostics.Log4Net.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
