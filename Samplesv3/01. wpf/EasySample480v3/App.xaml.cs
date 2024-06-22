@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using Diginsight.Diagnostics.Log4Net;
 using System.Runtime.CompilerServices;
+using log4net.Appender;
+using System.IO;
 
 namespace EasySample
 {
@@ -46,7 +48,9 @@ namespace EasySample
             var logger = DeferredLoggerFactory.CreateLogger<App>();
             using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
-            var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
+
+
+            var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ;
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
@@ -56,7 +60,7 @@ namespace EasySample
             logger.LogDebug($"var configuration = new ConfigurationBuilder()....Build() comleted");
             logger.LogDebug("environment:{environment},configuration:{Configuration}", environment, configuration);
 
-            Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
+            Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(  )
                 .ConfigureServices((context, services) =>
                 {
                     services.FlushOnCreateServiceProvider(DeferredLoggerFactory);
@@ -73,7 +77,35 @@ namespace EasySample
                                  {
                                      loggingBuilder1.ClearProviders();
 
-                                     loggingBuilder1.AddDiginsightLog4Net("log4net.config");
+                                     //loggingBuilder.AddDiginsightLog4Net("log4net.config");
+                                     loggingBuilder.AddDiginsightLog4Net(static sp =>
+                                     {
+                                         IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
+                                         //string fileBaseDir = env.IsDevelopment()
+                                         //        ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile, Environment.SpecialFolderOption.DoNotVerify)
+                                         //        : $"{Path.DirectorySeparatorChar}home";
+                                         string fileBaseDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile, Environment.SpecialFolderOption.DoNotVerify);
+
+                                         return new IAppender[]
+                                                {
+                                                            new RollingFileAppender()
+                                                            {
+                                                                File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(App).Namespace!),
+                                                                AppendToFile = true,
+                                                                StaticLogFileName = false,
+                                                                RollingStyle = RollingFileAppender.RollingMode.Composite,
+                                                                DatePattern = @".yyyyMMdd.\l\o\g",
+                                                                MaxSizeRollBackups = 1000,
+                                                                MaximumFileSize = "100MB",
+                                                                LockingModel = new FileAppender.MinimalLock(),
+                                                                Layout = new DiginsightLayout()
+                                                                {
+                                                                    Pattern = "{Timestamp} {Category} {LogLevel} {TraceId} {Delta} {Duration} {Depth} {Indentation|-1} {Message}",
+                                                                },
+                                                            },
+                                                };
+                                     },
+                                     static _ => log4net.Core.Level.All);
                                  }
                              );
                     services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
