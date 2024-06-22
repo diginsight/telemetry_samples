@@ -4,11 +4,11 @@
     "net8.0": {
       "Diginsight.Core": {
         "type": "Direct",
-        "requested": "[3.0.0-alpha.185, )",
-        "resolved": "3.0.0-alpha.185",
-        "contentHash": "Em09sioVZQ2OvbHZlQUFH51Gha2ZgwYWPOSss2yjYbveohK9SKmHHzoSTmhBTUbhsYd/Si5mZRuUQLYkgVA2ug==",
+        "requested": "[3.0.0-alpha.194, )",
+        "resolved": "3.0.0-alpha.194",
+        "contentHash": "azL9YJ9BrNJFAE8K0ewNilaxd//zez1Zu7pf2P+3p/T5I2eXab79sDquelLxjPJaZfcIwFqaUAPzVILhv9ne0A==",
         "dependencies": {
-          "Diginsight.Polyfills": "3.0.0-alpha.185",
+          "Diginsight.Polyfills": "3.0.0-alpha.194",
           "Microsoft.Extensions.Caching.Memory": "8.0.0",
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Binder": "8.0.1",
@@ -21,21 +21,22 @@
       },
       "Diginsight.Diagnostics": {
         "type": "Direct",
-        "requested": "[3.0.0-alpha.185, )",
-        "resolved": "3.0.0-alpha.185",
-        "contentHash": "p5WL80VdVN4H+snMjQEaZFDZSCks0n7TDZV1ny3yj6bxNOROL+huIVnf6A7eW57jiregQQm03sv4tVa/en9zCg==",
+        "requested": "[3.0.0-alpha.194, )",
+        "resolved": "3.0.0-alpha.194",
+        "contentHash": "EhnWxBdjrNinnNWT0HzV+6rbweuvqUcLqaCwVwrCdSnboblmyJ9IefmiVIm2vP4zJgIyFXU5vFrRhJOdJrAQDA==",
         "dependencies": {
-          "Diginsight.Core": "3.0.0-alpha.185",
+          "Diginsight.Core": "3.0.0-alpha.194",
+          "Microsoft.Extensions.Diagnostics": "8.0.0",
           "Microsoft.Extensions.Logging.Console": "8.0.0"
         }
       },
       "Diginsight.Diagnostics.Log4Net": {
         "type": "Direct",
-        "requested": "[3.0.0-alpha.185, )",
-        "resolved": "3.0.0-alpha.185",
-        "contentHash": "r5TBgefpNJtrcZxuFuC/6QgnIn55CoHf0Q9NfZrYMSf9NYGNpVWexbbqD0/1CkcJ7cyJRPDTgY1JEaSJxs8XBg==",
+        "requested": "[3.0.0-alpha.194, )",
+        "resolved": "3.0.0-alpha.194",
+        "contentHash": "py2gdF9tZJAI0ApMCsOMgXard/C8bOpVformkY+d1Nfa2X0/PXV/SJipU8v9l7nHq1yecv189kI3D3wv02GtmQ==",
         "dependencies": {
-          "Diginsight.Diagnostics": "3.0.0-alpha.185",
+          "Diginsight.Diagnostics": "3.0.0-alpha.194",
           "Microsoft.Extensions.Logging.Log4Net.AspNetCore": "8.0.0"
         }
       },
@@ -179,8 +180,8 @@
       },
       "Diginsight.Polyfills": {
         "type": "Transitive",
-        "resolved": "3.0.0-alpha.185",
-        "contentHash": "UL/CoIHDPZ8/Or2L+UBEPz/WHJrIoDQOB2I8ErfSYoFGLugbHBM5CI/bR0p2NaBl9aeiMxNUr0Ks3TKhWuQpFA=="
+        "resolved": "3.0.0-alpha.194",
+        "contentHash": "w1A0eYL3lXu0XoSwbKEaOKEgouCMvDHSMjazowmmIRvC2uCibtoqG4Wpylu2Yd8xHaaObGMaQrDCEzci3mcZcg=="
       },
       "log4net": {
         "type": "Transitive",

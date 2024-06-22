@@ -11,6 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="log4net.config.notused" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="log4net.config.notused" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Core\Diginsight.Core.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
     <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Diagnostics\Diginsight.Diagnostics.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />
     <ProjectReference Include="$(DiginsightSolutionDirectory)Diginsight.Diagnostics.AspNetCore.OpenTelemetry\Diginsight.Diagnostics.AspNetCore.OpenTelemetry.csproj" Condition="'$(DiginsightDirectImport)' == 'true'" />

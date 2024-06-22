@@ -6,6 +6,7 @@ using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Text.Json.Serialization;
+using Diginsight.Diagnostics;
 
 namespace SampleWebApi
 {
@@ -14,17 +15,27 @@ namespace SampleWebApi
         private static readonly string SmartCacheServiceBusSubscriptionName = Guid.NewGuid().ToString("N");
 
         private readonly IConfiguration configuration;
+        private readonly ILogger logger;
+        private readonly IDeferredLoggerFactory deferredLoggerFactory;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IDeferredLoggerFactory deferredLoggerFactory)
         {
             this.configuration = configuration;
+
+            this.deferredLoggerFactory = deferredLoggerFactory;
+            this.logger = this.deferredLoggerFactory.CreateLogger<Startup>();
+        
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var logger = deferredLoggerFactory.CreateLogger<Startup>();
+            using var innerActivity = Observability.ActivitySource.StartMethodActivity(logger, new { services });
+
             services.AddHttpContextAccessor();
             services.AddObservability(configuration);
             services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
+            services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
             services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("FeatureManagement"))
                 .PostConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
@@ -81,6 +92,9 @@ namespace SampleWebApi
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var logger = deferredLoggerFactory.CreateLogger<Startup>();
+            using var innerActivity = Observability.ActivitySource.StartMethodActivity(logger, new { app, env });
+
             if (env.IsDevelopment())
             {
                 //IdentityModelEventSource.ShowPII = true;

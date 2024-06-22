@@ -41,6 +41,7 @@ using log4net.Appender;
 using System.IO;
 using log4net.Repository.Hierarchy;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
+using EasySample600v3;
 #endregion
 
 namespace EasySample
@@ -50,42 +51,34 @@ namespace EasySample
     {
         private const string CONFIGVALUE_APPINSIGHTSKEY = "AppInsightsKey", DEFAULTVALUE_APPINSIGHTSKEY = "";
 
-        private static readonly IDeferredLoggerFactory DeferredLoggerFactory;
-        internal static ILoggerFactory LoggerFactory { get; private set; }
+        public static IDeferredLoggerFactory DeferredLoggerFactory;
+        static Type T = typeof(App);
 
-        internal static readonly ActivitySource ActivitySource = new(typeof(App).Namespace ?? typeof(App).Name!);
-        
-        private IHost host;
+        public static IHost Host;
+        private ILogger<App> logger;
         //private ILogger<App> logger;
 
         static App()
         {
-            DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
-            var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-            LoggerFactory = DeferredLoggerFactory = deferredLoggerFactory;
+            var activitiesOptions = new DiginsightActivitiesOptions() { LogActivities = true };
+            DeferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
+            DeferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+            var logger = DeferredLoggerFactory.CreateLogger<App>();
 
-            var logger = LoggerFactory.CreateLogger<App>();
-            deferredLoggerFactory.ActivitySources.Add(ActivitySource);
-
-            //ActivitySource = DeferredLoggerFactory.ActivitySource;
-
-            using var activity = ActivitySource.StartMethodActivity(logger);
-
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
             try
             {
-                // logger.LogDebug("this is a debug trace");
-                // logger.LogInformation("this is a Information trace");
-                // logger.LogWarning("this is a Warning trace");
-                // logger.LogError("this is a error trace");
-                throw new InvalidOperationException("this is an exception");
+
             }
             catch (Exception /*ex*/) { /*sec.Exception(ex);*/ }
+
         }
 
         public App()
         {
-            var logger = LoggerFactory.CreateLogger<App>();
-            using var activity = ActivitySource.StartMethodActivity(logger);
+            var logger = DeferredLoggerFactory.CreateLogger<App>();
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
+
 
             //var logger = Host.Services.GetRequiredService<ILogger<App>>();
             //using var activity = ActivitySource.StartMethodActivity(logger, new { });
@@ -93,67 +86,65 @@ namespace EasySample
         }
         protected override async void OnStartup(StartupEventArgs e)
         {
-            var logger = LoggerFactory.CreateLogger<App>();
-            using (var activity = ActivitySource.StartMethodActivity(logger))
-            {
-                var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
-                var configuration = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                    .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
-                    .AddEnvironmentVariables()
-                    .AddUserSecrets<App>()
-                    .Build();
-                logger.LogDebug($"var configuration = new ConfigurationBuilder()....Build() comleted");
-                logger.LogDebug("environment:{environment},configuration:{Configuration}", environment, configuration);
+            var logger = DeferredLoggerFactory.CreateLogger<App>();
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
-                host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
-                    .ConfigureAppConfiguration(builder =>
-                    {
-                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
+            var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .AddUserSecrets<App>()
+                .Build();
+            logger.LogDebug($"var configuration = new ConfigurationBuilder()....Build() comleted");
+            logger.LogDebug("environment:{environment},configuration:{Configuration}", environment, configuration);
 
-                        builder.Sources.Clear();
-                        builder.AddConfiguration(configuration);
-                        builder.AddUserSecrets<App>();
-                        builder.AddEnvironmentVariables();
-                    }).ConfigureServices((context, services) =>
-                    {
-                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
-                        services.FlushOnCreateServiceProvider(DeferredLoggerFactory);
+            Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration(builder =>
+                {
+                    using var innerActivity = Observability.ActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
 
-                        ConfigureServices(context.Configuration, services, logger);
-                    })
-                    .ConfigureLogging((context, loggingBuilder) =>
-                    {
-                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
+                    builder.Sources.Clear();
+                    builder.AddConfiguration(configuration);
+                    builder.AddUserSecrets<App>();
+                    builder.AddEnvironmentVariables();
+                }).ConfigureServices((context, services) =>
+                {
+                    using var innerActivity = Observability.ActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
+                    services.FlushOnCreateServiceProvider(DeferredLoggerFactory);
 
-                        loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
-                        loggingBuilder.ClearProviders();
-                        //var classConfigurationGetter = new ClassConfigurationGetter<App>(context.Configuration);
-                        //var appInsightKey = classConfigurationGetter.Get(CONFIGVALUE_APPINSIGHTSKEY, DEFAULTVALUE_APPINSIGHTSKEY);
+                    ConfigureServices(context.Configuration, services);
+                })
+                .ConfigureLogging((context, loggingBuilder) =>
+                {
+                    using var innerActivity = Observability.ActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
 
-                        var services = loggingBuilder.Services;
-                        services.AddLogging(
-                                     loggingBuilder =>
+                    loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
+                    loggingBuilder.ClearProviders();
+
+                    var services = loggingBuilder.Services;
+                    services.AddLogging(
+                                 loggingBuilder =>
+                                 {
+                                     loggingBuilder.ClearProviders();
+
+                                     if (configuration.GetValue("AppSettings:ConsoleProviderEnabled", true))
                                      {
-                                         loggingBuilder.ClearProviders();
+                                         loggingBuilder.AddDiginsightConsole();
+                                     }
 
-                                         if (configuration.GetValue("AppSettings:ConsoleProviderEnabled", true))
+                                     if (configuration.GetValue("AppSettings:Log4NetProviderEnabled", true))
+                                     {
+                                         //loggingBuilder.AddDiginsightLog4Net("log4net.config");
+                                         loggingBuilder.AddDiginsightLog4Net(static sp =>
                                          {
-                                             loggingBuilder.AddDiginsightConsole();
-                                         }
+                                             IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
+                                             string fileBaseDir = env.IsDevelopment()
+                                                     ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile, Environment.SpecialFolderOption.DoNotVerify)
+                                                     : $"{Path.DirectorySeparatorChar}home";
 
-                                         if (configuration.GetValue("AppSettings:Log4NetProviderEnabled", true))
-                                         {
-                                             //loggingBuilder.AddDiginsightLog4Net("log4net.config");
-                                             loggingBuilder.AddDiginsightLog4Net(static sp =>
-                                             {
-                                                 IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
-                                                 string fileBaseDir = env.IsDevelopment()
-                                                         ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile, Environment.SpecialFolderOption.DoNotVerify)
-                                                         : $"{Path.DirectorySeparatorChar}home";
-
-                                                 return new IAppender[]
-                                                        {
+                                             return new IAppender[]
+                                                    {
                                                             new RollingFileAppender()
                                                             {
                                                                 File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(App).Namespace!),
@@ -169,40 +160,40 @@ namespace EasySample
                                                                     Pattern = "{Timestamp} {Category} {LogLevel} {TraceId} {Delta} {Duration} {Depth} {Indentation|-1} {Message}",
                                                                 },
                                                             },
-                                                        };
-                                             },
-                                             static _ => log4net.Core.Level.All);
-                                         }
+                                                    };
+                                         },
+                                         static _ => log4net.Core.Level.All);
                                      }
-                                 );
+                                 }
+                             );
 
-                        services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
-                        services.AddSingleton<Application>(this); // 
+                    services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
+                    services.AddSingleton<App>();
 
-                    })
-                    .UseDiginsightServiceProvider()
-                    .Build();
-
-            }
-            LoggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
+                })
+                .UseDiginsightServiceProvider()
+                .Build();
 
             logger.LogDebug("host = appBuilder.Build(); completed");
-            await host.StartAsync(); logger.LogDebug($"await Host.StartAsync();");
+            await Host.StartAsync(); logger.LogDebug($"await Host.StartAsync();");
 
-            var mainWindow = host.Services.GetRequiredService<MainWindow>(); logger.LogDebug($"Host.Services.GetRequiredService<MainWindow>(); returns {mainWindow.ToLogString()}");
+            var mainWindow = Host.Services.GetRequiredService<MainWindow>(); logger.LogDebug($"Host.Services.GetRequiredService<MainWindow>(); returns {mainWindow.ToLogString()}");
 
             mainWindow.Show(); logger.LogDebug($"mainWindow.Show();");
             base.OnStartup(e); logger.LogDebug($"base.OnStartup(e);");
 
-
         }
-        private void ConfigureServices(IConfiguration configuration, IServiceCollection services, ILogger logger)
+        private void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
-            using var activity = ActivitySource.StartMethodActivity(logger, new { configuration, services });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, () => new { configuration, services });
 
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpContextAccessor();
-            //services.AddClassConfiguration();
+
+            //services.ConfigureClassAware<AppSettingsOptions>(configuration.GetSection("AppSettings"));
+            //services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("AppSettings"));
+            //services.ConfigureClassAware<AzureKeyVaultOptions>(configuration.GetSection("AzureKeyVault"));
+            //services.ConfigureClassAware<AzureAdOptions>(configuration.GetSection("AzureAd"));
 
             //var appSettingsSection = configuration.GetSection(nameof(AppSettings));
             //var settings = appSettingsSection.Get<AppSettings>();
@@ -211,19 +202,17 @@ namespace EasySample
             //var aiConnectionString = configuration.GetValue<string>(Constants.APPINSIGHTSCONNECTIONSTRING);
             //services.AddObservability(configuration);
 
+
             services.AddSingleton<MainWindow>();
 
         }
         protected override async void OnExit(ExitEventArgs e)
         {
-            if (host is null) { base.OnExit(e); return; }
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { e });
 
-            var logger = host.Services.GetRequiredService<ILogger<App>>();
-            using var activity = ActivitySource.StartMethodActivity(logger, new { e });
-
-            using (host)
+            using (Host)
             {
-                await host.StopAsync(TimeSpan.FromSeconds(5));
+                await Host.StopAsync(TimeSpan.FromSeconds(5));
             }
 
             base.OnExit(e);
@@ -231,32 +220,5 @@ namespace EasySample
 
         private string GetMethodName([CallerMemberName] string memberName = "") { return memberName; }
 
-
-        // All the functions below simulate doing some arbitrary work
-        static async Task DoSomeWork(string foo, int bar)
-        {
-            var logger = App.LoggerFactory.CreateLogger<App>();
-            //var logger = host.Services.GetRequiredService<ILogger<App>>();
-            //using var activity = ActivitySource.StartMethodActivity(logger, new { foo, bar });
-
-            await StepOne();
-            await StepTwo();
-        }
-
-        static async Task StepOne()
-        {
-            //var logger = Host.Services.GetRequiredService<ILogger<App>>();
-            //using var activity = ActivitySource.StartMethodActivity(logger, new { });
-
-            await Task.Delay(500);
-        }
-
-        static async Task StepTwo()
-        {
-            //var logger = Host.Services.GetRequiredService<ILogger<App>>();
-            //using var activity = ActivitySource.StartMethodActivity(logger, new { });
-
-            await Task.Delay(1000);
-        }
     }
 }
