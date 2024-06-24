@@ -59,11 +59,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="$(DiginsightLegacySolutionDirectory)Common.Diagnostics\Common.Diagnostics.csproj" Condition="'$(DiginsightLegacyDirectImport)' == 'true'" />
-		<ProjectReference Include="$(DiginsightLegacySolutionDirectory)telemetry_legacy\Common.Diagnostics.Logstrings.Wpf\Common.Diagnostics.Logstrings.Wpf.csproj" Condition="'$(DiginsightLegacyDirectImport)' == 'true'" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Diginsight.Core" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
 		<PackageReference Include="Diginsight.Diagnostics" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
 		<PackageReference Include="Diginsight.Diagnostics.Log4Net" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
