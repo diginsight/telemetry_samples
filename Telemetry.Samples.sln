@@ -32,13 +32,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApi", "Samplesv3\0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySample600v3", "Samplesv3\01. wpf\EasySample600v3\EasySample600v3.csproj", "{C7B09552-46A9-4AE7-B48F-195A55657271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySample480v3", "Samplesv3\01. wpf\EasySample480v3\EasySample480v3.csproj", "{6AF60434-7EAC-46C9-9F38-CB5C3A5BC8F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySample480v3", "Samplesv3\01. wpf\EasySample480v3\EasySample480v3.csproj", "{6AF60434-7EAC-46C9-9F38-CB5C3A5BC8F5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.01 Aspnet", "02.01 Aspnet", "{54020E43-0805-4DBC-81C6-6AAD016F5136}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleBlazorApp", "Samplesv3\02.01 Aspnet\SampleBlazorApp\SampleBlazorApp\SampleBlazorApp.csproj", "{71EAC9F0-1351-4344-BD38-292495FC6267}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorApp", "Samplesv3\02.01 Aspnet\SampleBlazorApp\SampleBlazorApp\SampleBlazorApp.csproj", "{71EAC9F0-1351-4344-BD38-292495FC6267}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleBlazorApp.Client", "Samplesv3\02.01 Aspnet\SampleBlazorApp\SampleBlazorApp.Client\SampleBlazorApp.Client.csproj", "{4617AEBE-141D-44B4-B8EE-6AAB28AABF89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorApp.Client", "Samplesv3\02.01 Aspnet\SampleBlazorApp\SampleBlazorApp.Client\SampleBlazorApp.Client.csproj", "{4617AEBE-141D-44B4-B8EE-6AAB28AABF89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleBlazorWebApp", "Samplesv3\02.01 Aspnet\SampleBlazorWebApp\SampleBlazorWebApp\SampleBlazorWebApp.csproj", "{6A27833B-7A01-4E0B-8AB0-1454C5E0729D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleBlazorWebApp.Client", "Samplesv3\02.01 Aspnet\SampleBlazorWebApp\SampleBlazorWebApp.Client\SampleBlazorWebApp.Client.csproj", "{5A0E3C06-FA37-4F06-B3D7-1B81E6105A7C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorAppClient", "Samplesv3\02.01 Aspnet\SampleBlazorAppClient\SampleBlazorAppClient.csproj", "{0EB2C837-55A2-43F5-BDF3-BF3EB946CE07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +76,18 @@ Global
 		{4617AEBE-141D-44B4-B8EE-6AAB28AABF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4617AEBE-141D-44B4-B8EE-6AAB28AABF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4617AEBE-141D-44B4-B8EE-6AAB28AABF89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A27833B-7A01-4E0B-8AB0-1454C5E0729D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A27833B-7A01-4E0B-8AB0-1454C5E0729D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A27833B-7A01-4E0B-8AB0-1454C5E0729D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A27833B-7A01-4E0B-8AB0-1454C5E0729D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A0E3C06-FA37-4F06-B3D7-1B81E6105A7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A0E3C06-FA37-4F06-B3D7-1B81E6105A7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A0E3C06-FA37-4F06-B3D7-1B81E6105A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A0E3C06-FA37-4F06-B3D7-1B81E6105A7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EB2C837-55A2-43F5-BDF3-BF3EB946CE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB2C837-55A2-43F5-BDF3-BF3EB946CE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB2C837-55A2-43F5-BDF3-BF3EB946CE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB2C837-55A2-43F5-BDF3-BF3EB946CE07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +104,9 @@ Global
 		{54020E43-0805-4DBC-81C6-6AAD016F5136} = {BE7E4AE3-AD84-422B-81C9-18331534317D}
 		{71EAC9F0-1351-4344-BD38-292495FC6267} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
 		{4617AEBE-141D-44B4-B8EE-6AAB28AABF89} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
+		{6A27833B-7A01-4E0B-8AB0-1454C5E0729D} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
+		{5A0E3C06-FA37-4F06-B3D7-1B81E6105A7C} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
+		{0EB2C837-55A2-43F5-BDF3-BF3EB946CE07} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0B2D1C5-C68C-4899-938A-E9CA74CB5ED5}
