@@ -20,7 +20,6 @@ namespace SampleConsoleApp
     internal class Program
     {
         public static ILoggerFactory LoggerFactory;
-        internal static readonly ActivitySource ActivitySource = new(typeof(Program).Namespace ?? typeof(Program).Name!);
         private readonly ILogger logger;
 
         private static readonly JsonSerializerOptions MyJsonSerializerOptions = new(JsonSerializerOptions.Default) { ReadCommentHandling = JsonCommentHandling.Skip };
@@ -32,10 +31,10 @@ namespace SampleConsoleApp
         {
             DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
             var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-            deferredLoggerFactory.ActivitySources.Add(ActivitySource);
+            deferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
             logger = deferredLoggerFactory.CreateLogger<Program>();
 
-            using var activity = ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
             try
             {
                 LoggerFactory = loggerFactory;
@@ -50,11 +49,11 @@ namespace SampleConsoleApp
         {
             var activitiesOptions = new DiginsightActivitiesOptions() { LogActivities = true };
             var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-            deferredLoggerFactory.ActivitySources.Add(ActivitySource);
+            deferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
             LoggerFactory = deferredLoggerFactory;
             var logger = LoggerFactory.CreateLogger<Program>();
 
-            using var activity = ActivitySource.StartMethodActivity(logger, new { args });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { args });
 
             var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
             var configuration = new ConfigurationBuilder()
@@ -63,20 +62,21 @@ namespace SampleConsoleApp
                 .AddEnvironmentVariables()
                 .AddUserSecrets<Program>()
                 .Build();
+
             logger.LogDebug($"var configuration = new ConfigurationBuilder()....Build() comleted");
             logger.LogDebug("environment:{environment},configuration:{Configuration}", environment, configuration);
 
             var appBuilder = Host.CreateDefaultBuilder()
                     .ConfigureAppConfiguration(builder =>
                     {
-                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
+                        using var innerActivity = Observability.ActivitySource.StartRichActivity(logger, "ConfigureAppConfiguration.Callback", new { builder });
 
                         builder.Sources.Clear();
                         builder.AddConfiguration(configuration);
                     })
                     .ConfigureServices((context, services) =>
                     {
-                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
+                        using var innerActivity = Observability.ActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
                         services.TryAddSingleton(LoggerFactory);
                         services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
@@ -84,7 +84,7 @@ namespace SampleConsoleApp
                     })
                     .ConfigureLogging((context, loggingBuilder) =>
                     {
-                        using var innerActivity = ActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
+                        using var innerActivity = Observability.ActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
 
                         loggingBuilder.AddConfiguration(context.Configuration.GetSection("Logging"));
                         loggingBuilder.ClearProviders();
