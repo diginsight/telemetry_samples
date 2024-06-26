@@ -28,8 +28,8 @@
 		<OpenTelemetryBetaVersion>1.5.*-*</OpenTelemetryBetaVersion>
 
 		<DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
-		<DiginsightCoreVersion>3.0.0-alpha.194</DiginsightCoreVersion>
-		<DiginsightSmartcacheVersion>3.0.0-alpha.194</DiginsightSmartcacheVersion>
+		<DiginsightCoreVersion>3.0.0-alpha.195</DiginsightCoreVersion>
+		<DiginsightSmartcacheVersion>3.0.0-alpha.195</DiginsightSmartcacheVersion>
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)Directory.build.props.user" Condition="Exists('$(MSBuildThisFileDirectory)Directory.build.props.user')" />
