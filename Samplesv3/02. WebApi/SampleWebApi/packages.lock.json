@@ -142,15 +142,6 @@
           "Polly.Core": "8.4.0"
         }
       },
-      "log4net": {
-        "type": "Direct",
-        "requested": "[2.0.17, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
-        "dependencies": {
-          "System.Configuration.ConfigurationManager": "4.5.0"
-        }
-      },
       "Microsoft.Extensions.DependencyInjection": {
         "type": "Direct",
         "requested": "[8.0.0, )",
@@ -420,6 +411,14 @@
         "contentHash": "di9qzpdx525IxumZdYmu6sG2y/gXJyYeZ1ruFUzB9BJ1nj4kU1/dTAioNCMt1VLRvNVDqh8S8B1oBdKhHJ4xRg==",
         "dependencies": {
           "Grpc.Core.Api": "2.52.0"
+        }
+      },
+      "log4net": {
+        "type": "Transitive",
+        "resolved": "2.0.15",
+        "contentHash": "GahnO9ZgFka+xYcFwAfIFjW+k86P2nxFoaEpH6t3v4hiGj7tv2ksVZphxCVIHmJxoySS0HeU3dgCW+bSCcfD0A==",
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "4.5.0"
         }
       },
       "Microsoft.Azure.Amqp": {

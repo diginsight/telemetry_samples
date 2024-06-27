@@ -1,4 +1,5 @@
 ﻿#nullable enable
+
 using Azure.Monitor.OpenTelemetry.Exporter;
 using Diginsight;
 using Diginsight.AspNetCore;
@@ -17,7 +18,7 @@ using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Text;
 
-namespace SampleWebApi;
+namespace SampleBlazorWebApp;
 
 public static class AddObservabilityExtension
 {
@@ -105,7 +106,7 @@ public static class AddObservabilityExtension
         );
 
         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
-        services.PostConfigureFromHttpRequestHeaders<DiginsightActivitiesOptions>();
+        //services.PostConfigureFromHttpRequestHeaders<DiginsightActivitiesOptions>();
 
         var builder = services.AddDiginsightOpenTelemetry();
 
@@ -211,14 +212,13 @@ public static class AddObservabilityExtension
                         );
                     }
 
-                    tracerProviderBuilder
-                        .SetHttpHeadersSampler(
-                            static sp =>
-                            {
-                                OpenTelemetryOptions openTelemetryOptions = sp.GetRequiredService<IOptions<OpenTelemetryOptions>>().Value;
-                                return new ParentBasedSampler(new TraceIdRatioBasedSampler(openTelemetryOptions.TracingSamplingRatio));
-                            }
-                        );
+                    //tracerProviderBuilder.SetHttpHeadersSampler(
+                    //        static sp =>
+                    //        {
+                    //            OpenTelemetryOptions openTelemetryOptions = sp.GetRequiredService<IOptions<OpenTelemetryOptions>>().Value;
+                    //            return new ParentBasedSampler(new TraceIdRatioBasedSampler(openTelemetryOptions.TracingSamplingRatio));
+                    //        }
+                    //    );
                 }
             );
         }
