@@ -4,7 +4,7 @@
     "net8.0": {
       "Asp.Versioning.Abstractions": {
         "type": "Direct",
-        "requested": "[8.1.0, )",
+        "requested": "[8.*, )",
         "resolved": "8.1.0",
         "contentHash": "mpeNZyMdvrHztJwR1sXIUQ+3iioEU97YMBnFA9WLbsPOYhGwDJnqJMmEd8ny7kcmS9OjTHoEuX/bSXXY3brIFA==",
         "dependencies": {
@@ -13,7 +13,7 @@
       },
       "Asp.Versioning.Http": {
         "type": "Direct",
-        "requested": "[8.1.0, )",
+        "requested": "[8.*, )",
         "resolved": "8.1.0",
         "contentHash": "Xu4xF62Cu9JqYi/CTa2TiK5kyHoa4EluPynj/bPFWDmlTIPzuJQbBI5RgFYVRFHjFVvWMoA77acRaFu7i7Wzqg==",
         "dependencies": {
@@ -22,7 +22,7 @@
       },
       "Asp.Versioning.Http.Client": {
         "type": "Direct",
-        "requested": "[8.1.0, )",
+        "requested": "[8.*, )",
         "resolved": "8.1.0",
         "contentHash": "SEynFK2oFMS3CsbCk0rVT7R4a7YqjVe9pj7i/E0SU/5n0Y7qufWQV/Yqu/KU8u1tREUI3P8w5jqrfrwAtDnW5A==",
         "dependencies": {
@@ -130,7 +130,7 @@
       },
       "Microsoft.AspNetCore.Components.WebAssembly.Server": {
         "type": "Direct",
-        "requested": "[8.0.6, )",
+        "requested": "[8.*, )",
         "resolved": "8.0.6",
         "contentHash": "7GAMQ4C4hBwDGzqKCUlukFhak+Z3s31QGASU8sulBkYnI9OJjCyrT3Hxv86gB67qGC+6S6kiBANGp5rphFZqTg=="
       },

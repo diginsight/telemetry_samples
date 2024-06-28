@@ -4,6 +4,10 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>23ff649e-5c90-4e70-85dc-f30a3eca5742</UserSecretsId>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DocumentationFile>SampleBlazorWebApp.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -38,14 +42,16 @@
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.*" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.*" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="8.*" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.*" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.*" />
 
+		<PackageReference Include="Asp.Versioning.Abstractions" Version="8.*" />
+		<PackageReference Include="Asp.Versioning.Http" Version="8.*" />
+		<PackageReference Include="Asp.Versioning.Http.Client" Version="8.*" />
 
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" />
-		<PackageReference Include="Asp.Versioning.Abstractions" Version="8.1.0" />
-		<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
-		<PackageReference Include="Asp.Versioning.Http.Client" Version="8.1.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.*" />
+		
 		<PackageReference Include="RestSharp" Version="111.0.0" />
 
 		<PackageReference Include="Scrutor" Version="4.*" />
@@ -56,7 +62,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.*" />
 
 		<ProjectReference Include="..\SampleBlazorWebApp.Client\SampleBlazorWebApp.Client.csproj" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.6" />
 	</ItemGroup>
 
 </Project>
