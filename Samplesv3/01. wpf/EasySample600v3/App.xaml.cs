@@ -112,6 +112,7 @@ namespace EasySample
                 {
                     using var innerActivity = Observability.ActivitySource.StartRichActivity(logger, "ConfigureServices.Callback", new { context, services });
                     services.FlushOnCreateServiceProvider(DeferredLoggerFactory);
+                    services.TryAddSingleton<IDeferredLoggerFactory, DeferredLoggerFactory>();
 
                     ConfigureServices(context.Configuration, services);
                 })
@@ -164,6 +165,8 @@ namespace EasySample
                                          },
                                          static _ => log4net.Core.Level.All);
                                      }
+
+                                     loggingBuilder.AddLogRecorder();
                                  }
                              );
 
@@ -189,6 +192,7 @@ namespace EasySample
 
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpContextAccessor();
+
 
             //services.ConfigureClassAware<AppSettingsOptions>(configuration.GetSection("AppSettings"));
             //services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("AppSettings"));
