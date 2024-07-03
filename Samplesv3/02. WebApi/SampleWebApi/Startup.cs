@@ -38,7 +38,7 @@ namespace SampleWebApi
             services.FlushOnCreateServiceProvider(deferredLoggerFactory);
 
             services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("FeatureManagement"))
-                .PostConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
+                .DynamicallyConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
 
             // configure type contracts for log string rendering
             static void ConfigureTypeContracts(LogStringTypeContractAccessor accessor)

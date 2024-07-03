@@ -66,7 +66,7 @@ public class Program
         services.FlushOnCreateServiceProvider(DeferredLoggerFactory);
 
         services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("FeatureManagement"))
-            .PostConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
+            .DynamicallyConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
 
         static void ConfigureTypeContracts(LogStringTypeContractAccessor accessor) // configure type contracts for log string rendering
         {
