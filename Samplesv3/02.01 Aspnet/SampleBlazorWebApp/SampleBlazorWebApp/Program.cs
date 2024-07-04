@@ -31,11 +31,12 @@ public class Program
         var app = default(WebApplication);
         using (var activity = Observability.ActivitySource.StartMethodActivity(logger, new { args }))
         {
-            
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.TryAddSingleton(DeferredLoggerFactory);
             ConfigureServices(builder.Services, builder.Configuration);
 
+            var webHost = builder.WebHost.UseDiginsightServiceProvider();
             app = builder.Build();
 
             Configure(app, app.Environment);
@@ -44,9 +45,6 @@ public class Program
         }
 
         app.Run();
-
-
-
     }
 
 
@@ -55,15 +53,16 @@ public class Program
         var logger = DeferredLoggerFactory.CreateLogger<Program>();
         using var innerActivity = Observability.ActivitySource.StartMethodActivity(logger, new { services });
 
+        services.FlushOnCreateServiceProvider(DeferredLoggerFactory);
+        services.AddHttpContextAccessor();
+        services.AddVolatileConfiguration();
+        services.AddObservability(configuration);
+        services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
+
         // add services to the container.
         services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
-
-        services.AddHttpContextAccessor();
-        services.AddObservability(configuration);
-        services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
-        services.FlushOnCreateServiceProvider(DeferredLoggerFactory);
 
         services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("FeatureManagement"))
             .DynamicallyConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();

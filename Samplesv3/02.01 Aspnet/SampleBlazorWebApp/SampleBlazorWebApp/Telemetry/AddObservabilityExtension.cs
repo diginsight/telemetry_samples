@@ -54,6 +54,7 @@ public static class AddObservabilityExtension
         services.AddLogging(
             loggingBuilder =>
             {
+                loggingBuilder.AddConfiguration(configuration.GetSection("Logging"));
                 loggingBuilder.ClearProviders();
 
                 if (configuration.GetValue("AppSettings:ConsoleProviderEnabled", true))
@@ -96,7 +97,7 @@ public static class AddObservabilityExtension
 
                 if (!string.IsNullOrEmpty(azureMonitorConnectionString))
                 {
-                    loggingBuilder.AddOpenTelemetry(
+                    loggingBuilder.AddDiginsightOpenTelemetry(
                         otlo => otlo.AddAzureMonitorLogExporter(
                             exporterOptions => { exporterOptions.ConnectionString = azureMonitorConnectionString; }
                         )
@@ -106,13 +107,13 @@ public static class AddObservabilityExtension
         );
 
         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
-        //services.PostConfigureFromHttpRequestHeaders<DiginsightActivitiesOptions>();
+        services.DynamicallyConfigureClassAwareFromHttpRequestHeaders<DiginsightActivitiesOptions>();
 
-        var builder = services.AddDiginsightOpenTelemetry();
+        IOpenTelemetryBuilder openTelemetryBuilder = services.AddDiginsightOpenTelemetry();
 
         if (openTelemetryOptions.EnableMetrics)
         {
-            builder.WithMetrics(
+            openTelemetryBuilder.WithMetrics(
                 meterProviderBuilder =>
                 {
                     meterProviderBuilder
@@ -120,8 +121,7 @@ public static class AddObservabilityExtension
                         .AddAspNetCoreInstrumentation()
                         .AddRuntimeInstrumentation()
                         .AddHttpClientInstrumentation()
-                        .AddMeter(openTelemetryOptions.Meters.ToArray())
-                        .AddPrometheusExporter();
+                        .AddMeter(openTelemetryOptions.Meters.ToArray());
 
                     if (!string.IsNullOrEmpty(azureMonitorConnectionString))
                     {
@@ -135,7 +135,7 @@ public static class AddObservabilityExtension
 
         if (openTelemetryOptions.EnableTraces)
         {
-            builder.WithTracing(
+            openTelemetryBuilder.WithTracing(
                 tracerProviderBuilder =>
                 {
                     tracerProviderBuilder
@@ -212,13 +212,14 @@ public static class AddObservabilityExtension
                         );
                     }
 
-                    //tracerProviderBuilder.SetHttpHeadersSampler(
-                    //        static sp =>
-                    //        {
-                    //            OpenTelemetryOptions openTelemetryOptions = sp.GetRequiredService<IOptions<OpenTelemetryOptions>>().Value;
-                    //            return new ParentBasedSampler(new TraceIdRatioBasedSampler(openTelemetryOptions.TracingSamplingRatio));
-                    //        }
-                    //    );
+                    tracerProviderBuilder
+                        .SetHttpHeadersSampler(
+                            static sp =>
+                            {
+                                OpenTelemetryOptions openTelemetryOptions = sp.GetRequiredService<IOptions<OpenTelemetryOptions>>().Value;
+                                return new ParentBasedSampler(new TraceIdRatioBasedSampler(openTelemetryOptions.TracingSamplingRatio));
+                            }
+                        );
                 }
             );
         }
