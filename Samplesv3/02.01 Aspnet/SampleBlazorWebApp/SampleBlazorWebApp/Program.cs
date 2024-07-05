@@ -36,7 +36,7 @@ public class Program
             builder.Services.TryAddSingleton(DeferredLoggerFactory);
             ConfigureServices(builder.Services, builder.Configuration);
 
-            var webHost = builder.WebHost.UseDiginsightServiceProvider();
+            var webHost = builder.Host.UseDiginsightServiceProvider();
             app = builder.Build();
 
             Configure(app, app.Environment);

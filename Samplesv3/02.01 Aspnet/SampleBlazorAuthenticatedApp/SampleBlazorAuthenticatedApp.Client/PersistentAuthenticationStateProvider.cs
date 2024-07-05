@@ -14,17 +14,13 @@ namespace SampleBlazorAuthenticatedApp.Client
     // cookie that will be included on HttpClient requests to the server.
     internal class PersistentAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private static readonly Task<AuthenticationState> defaultUnauthenticatedTask =
-            Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
+        private static readonly Task<AuthenticationState> defaultUnauthenticatedTask = Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
 
         private readonly Task<AuthenticationState> authenticationStateTask = defaultUnauthenticatedTask;
 
         public PersistentAuthenticationStateProvider(PersistentComponentState state)
         {
-            if (!state.TryTakeFromJson<UserInfo>(nameof(UserInfo), out var userInfo) || userInfo is null)
-            {
-                return;
-            }
+            if (!state.TryTakeFromJson<UserInfo>(nameof(UserInfo), out var userInfo) || userInfo is null) { return; }
 
             Claim[] claims = [
                 new Claim(ClaimTypes.NameIdentifier, userInfo.UserId),
