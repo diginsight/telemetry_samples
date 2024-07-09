@@ -1,4 +1,6 @@
 ﻿@page "/weather"
+@using Diginsight.Diagnostics
+@inject ILogger<Weather> logger
 
 <PageTitle>Weather</PageTitle>
 
@@ -40,6 +42,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        using var activity = Observability.ActivitySource.StartMethodActivity(logger);
+
         // Simulate asynchronous loading to demonstrate a loading indicator
         await Task.Delay(500);
 
