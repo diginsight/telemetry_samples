@@ -15,14 +15,19 @@
           "Microsoft.JSInterop.WebAssembly": "8.0.6"
         }
       },
-      "Microsoft.AspNetCore.Components.WebAssembly.Authentication": {
+      "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
         "type": "Direct",
         "requested": "[8.0.6, )",
         "resolved": "8.0.6",
-        "contentHash": "BSL+kMb+KMLH11cdKPP7SwlwckcRnR6y8E8Xr1IuTxnnuuzkcg+meK4gu54ntsk2bR+QpNJSdaXdqDMT/uCQ9g==",
+        "contentHash": "UX5wp3rK68IOXomFNL/sx1cHpcfX8GGv6hM8r/O8VNHMZWiXl1yd6L4+feVsBtMbUO/Tlm178WAwE73C6TYD6Q=="
+      },
+      "Microsoft.Authentication.WebAssembly.Msal": {
+        "type": "Direct",
+        "requested": "[8.0.6, )",
+        "resolved": "8.0.6",
+        "contentHash": "GeOvoJA14IZ98g/8KaT4YBG3kIi4d6tojmB4HNW+oyWLTzLpDzWI7KGjbVnOHQnsM93ZQ6mgJ88Bc6aaP3LT8w==",
         "dependencies": {
-          "Microsoft.AspNetCore.Components.Authorization": "8.0.6",
-          "Microsoft.AspNetCore.Components.Web": "8.0.6"
+          "Microsoft.AspNetCore.Components.WebAssembly.Authentication": "8.0.6"
         }
       },
       "Microsoft.NET.ILLink.Tasks": {
@@ -89,6 +94,15 @@
           "Microsoft.Extensions.Primitives": "8.0.0",
           "Microsoft.JSInterop": "8.0.6",
           "System.IO.Pipelines": "8.0.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components.WebAssembly.Authentication": {
+        "type": "Transitive",
+        "resolved": "8.0.6",
+        "contentHash": "BSL+kMb+KMLH11cdKPP7SwlwckcRnR6y8E8Xr1IuTxnnuuzkcg+meK4gu54ntsk2bR+QpNJSdaXdqDMT/uCQ9g==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Authorization": "8.0.6",
+          "Microsoft.AspNetCore.Components.Web": "8.0.6"
         }
       },
       "Microsoft.AspNetCore.Metadata": {
