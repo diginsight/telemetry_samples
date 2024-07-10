@@ -1,7 +1,7 @@
-﻿@page "/counter"
+﻿@inherits CounterBase
+@page "/counter"
 @using Diginsight.Diagnostics
 @using System.Diagnostics
-@inject ILogger<Counter> logger
 
 <PageTitle>Counter</PageTitle>
 
@@ -9,18 +9,4 @@
 
 <p role="status">Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
-@code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
-    {
-        using var activity = Observability.ActivitySource.StartMethodActivity(logger);
-
-        var process = Process.GetCurrentProcess();
-        logger.LogDebug("process: {ProcessId}, {ProcessName}", process.Id, process.ProcessName);
-
-        currentCount++;
-    }
-}
+<button class="btn btn-primary" @onclick="IncrementCount" >Click me</button>
