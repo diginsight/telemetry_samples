@@ -55,13 +55,13 @@ namespace AuthenticationSample
         public MainWindow(ILogger<MainWindow> logger)
         {
             this.logger = logger;
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { logger });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { logger });
 
             InitializeComponent();
         }
         private async void MainWindow_Initialized(object sender, EventArgs e)
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { sender, e });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { sender, e });
 
             //classConfigurationGetter.Get("SampleConfig", "");
             sampleMethod();
@@ -105,7 +105,7 @@ namespace AuthenticationSample
         }
         void sampleMethod()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { });
 
             logger.LogDebug("pippo");
 
@@ -114,7 +114,7 @@ namespace AuthenticationSample
         int i = 0;
         private void btnRun_Click(object sender, RoutedEventArgs e)
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { sender, e });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { sender, e });
 
             try
             {
@@ -126,7 +126,7 @@ namespace AuthenticationSample
 
         public int SampleMethodWithResult(int i, string s)
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger, new { i, s });
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { i, s });
 
             var result = 0;
 
@@ -141,7 +141,7 @@ namespace AuthenticationSample
         }
         public void SampleMethod()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
             Thread.Sleep(100);
             SampleMethodNested();
@@ -150,19 +150,19 @@ namespace AuthenticationSample
         }
         public void SampleMethodNested()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
             Thread.Sleep(100);
         }
         public void SampleMethodNested1()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
                 
             Thread.Sleep(10);
         }
         async Task<bool> sampleMethod1Async()
         {
-            using var activity = App.ActivitySource.StartMethodActivity(logger);
+            using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
             var res = true;
 
