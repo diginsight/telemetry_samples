@@ -1,4 +1,7 @@
 ﻿@page "/counter"
+@using Diginsight.Diagnostics
+@using Microsoft.Extensions.Logging
+@inject ILogger<Counter> logger
 
 <PageTitle>Counter</PageTitle>
 
@@ -13,6 +16,8 @@
 
     private void IncrementCount()
     {
+        using var activity = Observability.ActivitySource.StartMethodActivity(logger);
+
         currentCount++;
     }
 }
