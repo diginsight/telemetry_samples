@@ -2,9 +2,6 @@ using SampleBlazorWebAppGlobal.Client.Pages;
 using SampleBlazorWebAppGlobal.Components;
 using Diginsight.CAOptions;
 using Diginsight.Diagnostics;
-
-namespace SampleBlazorWebAppGlobal;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -16,6 +13,8 @@ using RestSharp;
 using System.Configuration;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
+
+namespace SampleBlazorWebAppGlobal;
 
 public class Program
 {
