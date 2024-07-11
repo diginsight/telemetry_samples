@@ -27,7 +27,7 @@
 		<OpenTelemetryVersion>1.*</OpenTelemetryVersion>
 		<OpenTelemetryBetaVersion>1.5.*-*</OpenTelemetryBetaVersion>
 
-		<DiginsightDiagnosticsVersion>2.0.0.12</DiginsightDiagnosticsVersion>
+		<DiginsightDiagnosticsVersion>2.0.0.28</DiginsightDiagnosticsVersion>
 		<DiginsightCoreVersion>3.0.0-alpha.198</DiginsightCoreVersion>
 		<DiginsightSmartcacheVersion>3.0.0-alpha.198</DiginsightSmartcacheVersion>
 	</PropertyGroup>

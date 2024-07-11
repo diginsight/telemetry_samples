@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Azure.Monitor.OpenTelemetry.Exporter;
+//using Azure.Monitor.OpenTelemetry.AspNetCore;
+//using Azure.Monitor.OpenTelemetry.Exporter;
 //using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Common;
-using OpenTelemetry.Exporter;
+//using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -34,7 +34,7 @@ public static class AddOpenTelemetryExtension
     {
         using var scope = TraceLogger.BeginMethodScope(T, new { app });
 
-        app.UseOpenTelemetryPrometheusScrapingEndpoint();
+        //app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
         return app;
     }
@@ -96,12 +96,12 @@ public static class AddOpenTelemetryExtension
 
             builder.AddProcessor<ObservabilityLogProcessor>();
             builder.AddProcessor<DurationMetricProcessor>();
-            builder.AddAspNetCoreInstrumentation();
-            builder.AddHttpClientInstrumentation();
-            //builder.AddConsoleExporter();
-            builder.AddConsoleExporter(options => options.Targets = ConsoleExporterOutputTargets.Debug);
+            //builder.AddAspNetCoreInstrumentation();
+            //builder.AddHttpClientInstrumentation();
+            ////builder.AddConsoleExporter();
+            //builder.AddConsoleExporter(options => options.Targets = ConsoleExporterOutputTargets.Debug);
 
-            if (!string.IsNullOrEmpty(aiConnectionString)) { builder.AddAzureMonitorTraceExporter(); }
+            //if (!string.IsNullOrEmpty(aiConnectionString)) { builder.AddAzureMonitorTraceExporter(); }
 
             // builder.AddRedisInstrumentation();
 
@@ -139,9 +139,9 @@ public static class AddOpenTelemetryExtension
         builder = builder.WithMetrics(builder =>
         {
             //builder.AddAspNetCoreInstrumentation();
-            builder.AddHttpClientInstrumentation();
-            builder.AddConsoleExporter();
-            builder.AddPrometheusExporter();
+            //builder.AddHttpClientInstrumentation();
+            //builder.AddConsoleExporter();
+            //builder.AddPrometheusExporter();
 
             //builder.AddOtlpExporter();
             //builder.AddMetrics<KeyVaultSampleMetrics>();
@@ -149,7 +149,7 @@ public static class AddOpenTelemetryExtension
             builder.AddMetrics<EasySampleMetrics>();
             builder.AddMeter(EasySampleMetrics.StaticObservabilityName);
 
-            if (!string.IsNullOrEmpty(aiConnectionString)) { builder.AddAzureMonitorMetricExporter(); }
+            //if (!string.IsNullOrEmpty(aiConnectionString)) { builder.AddAzureMonitorMetricExporter(); }
                 
             builder.ConfigureResource(resourceBuilder => resourceBuilder.AddAttributes(resourceAttributes));
         });
@@ -181,10 +181,10 @@ public static class AddOpenTelemetryExtension
 
         if (!string.IsNullOrEmpty(aiConnectionString))
         {
-            builder = builder.UseAzureMonitor(options =>
-            {
-                options.ConnectionString = aiConnectionString;
-            });
+            //builder = builder.UseAzureMonitor(options =>
+            //{
+            //    options.ConnectionString = aiConnectionString;
+            //});
         }
 
 
@@ -226,24 +226,24 @@ public static class AddOpenTelemetryExtension
 
         if (openTelemetryOptions.EnableMetrics)
         {
-            builder.WithMetrics(builder => builder
-                    .AddAspNetCoreInstrumentation()
-                    .AddRuntimeInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    //.AddMeter(TraceLogger.ObservabilityName)
+            //builder.WithMetrics(builder => builder
+            //        //.AddAspNetCoreInstrumentation()
+            //        //.AddRuntimeInstrumentation()
+            //        //.AddHttpClientInstrumentation()
+            //        //.AddMeter(TraceLogger.ObservabilityName)
 
-                    // adding em_ prefix to all the metrics
-                    // now it is done at PodMonitor Level
-                    // .AddView(instrument => new MetricStreamConfiguration { Name = $"{instrument.Name}" })
+            //        // adding em_ prefix to all the metrics
+            //        // now it is done at PodMonitor Level
+            //        // .AddView(instrument => new MetricStreamConfiguration { Name = $"{instrument.Name}" })
 
-                    // Exponetial Histograms not yet supported by the prometheus exporter https://github.com/open-telemetry/opentelemetry-dotnet/issues/4800
-                    // .AddView(instrument =>
-                    // {
-                    //     return instrument.GetType().GetGenericTypeDefinition() == typeof(Histogram<>)
-                    //         ? new Base2ExponentialBucketHistogramConfiguration()
-                    //         : null;
-                    // })
-                    .AddPrometheusExporter());
+            //        // Exponetial Histograms not yet supported by the prometheus exporter https://github.com/open-telemetry/opentelemetry-dotnet/issues/4800
+            //        // .AddView(instrument =>
+            //        // {
+            //        //     return instrument.GetType().GetGenericTypeDefinition() == typeof(Histogram<>)
+            //        //         ? new Base2ExponentialBucketHistogramConfiguration()
+            //        //         : null;
+            //        // })
+            //        .AddPrometheusExporter());
         }
 
         if (openTelemetryOptions.EnableTraces)
@@ -258,82 +258,82 @@ public static class AddOpenTelemetryExtension
                 { "service.instance.id", cloudRoleInstance }};
 
 
-            builder.WithTracing(builder => builder
-                .ConfigureResource(resourceBuilder => resourceBuilder.AddAttributes(resourceAttributes))
-                .AddProcessor<ObservabilityLogProcessor>()
-                .AddProcessor<DurationMetricProcessor>()
-                .AddAspNetCoreInstrumentation(options =>
-                {
-                    options.EnrichWithHttpRequest = (activity, httpRequest) =>
-                    {
-                        var context = httpRequest.HttpContext;
+            //builder.WithTracing(builder => builder
+            //    .ConfigureResource(resourceBuilder => resourceBuilder.AddAttributes(resourceAttributes))
+            //    .AddProcessor<ObservabilityLogProcessor>()
+            //    .AddProcessor<DurationMetricProcessor>()
+            //    .AddAspNetCoreInstrumentation(options =>
+            //    {
+            //        options.EnrichWithHttpRequest = (activity, httpRequest) =>
+            //        {
+            //            var context = httpRequest.HttpContext;
 
-                        activity.DisplayName = $"{context.Request.Scheme.ToUpperInvariant()} {context.Request.Method.ToUpperInvariant()} {context.Request.Path}";
+            //            activity.DisplayName = $"{context.Request.Scheme.ToUpperInvariant()} {context.Request.Method.ToUpperInvariant()} {context.Request.Path}";
 
-                        activity?.AddTag("http.client_ip", context.Connection.RemoteIpAddress);
-                        activity?.AddTag("http.request_content_length", httpRequest.ContentLength);
-                        activity?.AddTag("http.request_content_type", httpRequest.ContentType);
-                    };
-                    options.EnrichWithHttpResponse = (activity, httpResponse) =>
-                    {
-                        activity?.AddTag("http.response_content_length", httpResponse.ContentLength);
-                        activity?.AddTag("http.response_content_type", httpResponse.ContentType);
-                    };
-                    options.EnrichWithException = (activity, exception) =>
-                    {
-                        activity?.SetTag("stack_trace", exception.StackTrace);
-                    };
-                })
-                .AddHttpClientInstrumentation(options =>
-                {
-                    options.EnrichWithHttpRequestMessage = (activity, httpRequestMessage) =>
-                    {
-                        if (httpRequestMessage.Content is not null)
-                        {
-                            activity?.AddTag("http.request_content", Encoding.UTF8.GetString(httpRequestMessage.Content.ReadAsByteArrayAsync().Result));
-                        }
-                    };
-                    options.EnrichWithHttpResponseMessage = (activity, httpResponseMessage) =>
-                    {
-                        var contentByteArray = httpResponseMessage.Content.ReadAsByteArrayAsync().Result;
-                        activity?.AddTag("http.response_content_length", contentByteArray.Length);
-                        if (!httpResponseMessage.IsSuccessStatusCode && httpResponseMessage.Content is not null)
-                        {
-                            activity?.AddTag("http.response_content", Encoding.UTF8.GetString(contentByteArray));
-                        }
-                    };
-                    options.EnrichWithException = (activity, exception) =>
-                    {
-                        activity?.SetTag("stack_trace", exception.StackTrace);
-                        activity?.SetTag("error", true);
-                    };
-                    options.FilterHttpRequestMessage = (httpRequestMessage) =>
-                    {
-                        return !httpRequestMessage.RequestUri.ToString().Contains("applicationinsights.azure.com");
-                    };
-                })
-                //.AddRedisInstrumentation()
-                .AddConsoleExporter(options => options.Targets = ConsoleExporterOutputTargets.Debug)
-                .AddAzureMonitorTraceExporter()
-                .AddSource("Azure.*")
-                .AddSource(TraceLogger.ActivitySource.Name)
-                .SetErrorStatusOnException()
-            // .SetSampler(serviceProvider => new HttpHeaderSampler(serviceProvider, new ParentBasedSampler(new TraceIdRatioBasedSampler(openTelemetryOptions.TracingSamplingRatio))))
-            // .AddConsoleExporter()
-            //.AddOtlpExporter(options =>
-            //{
-            //    options.Endpoint = new Uri(openTelemetryOptions.OltpEndpoint);
-            //})
-            );
+            //            activity?.AddTag("http.client_ip", context.Connection.RemoteIpAddress);
+            //            activity?.AddTag("http.request_content_length", httpRequest.ContentLength);
+            //            activity?.AddTag("http.request_content_type", httpRequest.ContentType);
+            //        };
+            //        options.EnrichWithHttpResponse = (activity, httpResponse) =>
+            //        {
+            //            activity?.AddTag("http.response_content_length", httpResponse.ContentLength);
+            //            activity?.AddTag("http.response_content_type", httpResponse.ContentType);
+            //        };
+            //        options.EnrichWithException = (activity, exception) =>
+            //        {
+            //            activity?.SetTag("stack_trace", exception.StackTrace);
+            //        };
+            //    })
+            //    .AddHttpClientInstrumentation(options =>
+            //    {
+            //        options.EnrichWithHttpRequestMessage = (activity, httpRequestMessage) =>
+            //        {
+            //            if (httpRequestMessage.Content is not null)
+            //            {
+            //                activity?.AddTag("http.request_content", Encoding.UTF8.GetString(httpRequestMessage.Content.ReadAsByteArrayAsync().Result));
+            //            }
+            //        };
+            //        options.EnrichWithHttpResponseMessage = (activity, httpResponseMessage) =>
+            //        {
+            //            var contentByteArray = httpResponseMessage.Content.ReadAsByteArrayAsync().Result;
+            //            activity?.AddTag("http.response_content_length", contentByteArray.Length);
+            //            if (!httpResponseMessage.IsSuccessStatusCode && httpResponseMessage.Content is not null)
+            //            {
+            //                activity?.AddTag("http.response_content", Encoding.UTF8.GetString(contentByteArray));
+            //            }
+            //        };
+            //        options.EnrichWithException = (activity, exception) =>
+            //        {
+            //            activity?.SetTag("stack_trace", exception.StackTrace);
+            //            activity?.SetTag("error", true);
+            //        };
+            //        options.FilterHttpRequestMessage = (httpRequestMessage) =>
+            //        {
+            //            return !httpRequestMessage.RequestUri.ToString().Contains("applicationinsights.azure.com");
+            //        };
+            //    })
+            //    //.AddRedisInstrumentation()
+            //    .AddConsoleExporter(options => options.Targets = ConsoleExporterOutputTargets.Debug)
+            //    .AddAzureMonitorTraceExporter()
+            //    .AddSource("Azure.*")
+            //    .AddSource(TraceLogger.ActivitySource.Name)
+            //    .SetErrorStatusOnException()
+            //// .SetSampler(serviceProvider => new HttpHeaderSampler(serviceProvider, new ParentBasedSampler(new TraceIdRatioBasedSampler(openTelemetryOptions.TracingSamplingRatio))))
+            //// .AddConsoleExporter()
+            ////.AddOtlpExporter(options =>
+            ////{
+            ////    options.Endpoint = new Uri(openTelemetryOptions.OltpEndpoint);
+            ////})
+            //);
 
         }
 
         //ApplicationInsights:ConnectionString
         var aiConnectionString = configuration["ApplicationInsights:ConnectionString"];
-        builder.UseAzureMonitor(options =>
-        {
-            options.ConnectionString = aiConnectionString;
-        });
+        //builder.UseAzureMonitor(options =>
+        //{
+        //    options.ConnectionString = aiConnectionString;
+        //});
 
 
         return services;

@@ -24,6 +24,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E084CA0-E8DE-49F1-826D-1E51C8399EB2}"
 	ProjectSection(SolutionItems) = preProject
 		.filenesting.json = .filenesting.json
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_ext", "_ext", "{1DBBED92-BD24-4C18-B63F-E699E95FB2AA}"
@@ -51,6 +53,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. WebApi", "02. WebApi", "{B8DAC1F8-678C-4409-8B53-478A0BB9C208}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApi", "Samplesv3\02. WebApi\SampleWebApi\SampleWebApi.csproj", "{9D4E1CCC-78FD-45F8-93CC-F248CD9718F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySampleBlazorv2.Shared", "Samplesv2\03. Aspnet Blazor\EasySampleBlazorv2\Shared\EasySampleBlazorv2.Shared.csproj", "{8BD585F2-10B3-4247-BAA7-7F860C51F7B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySampleBlazorv2.Client", "Samplesv2\03. Aspnet Blazor\EasySampleBlazorv2\Client\EasySampleBlazorv2.Client.csproj", "{BD70F1E4-8AC4-437D-97E0-2ED34B13305B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySampleBlazorv2.Server", "Samplesv2\03. Aspnet Blazor\EasySampleBlazorv2\Server\EasySampleBlazorv2.Server.csproj", "{DD761712-4D7B-446D-BE2A-E3559FB7EF33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +102,18 @@ Global
 		{9D4E1CCC-78FD-45F8-93CC-F248CD9718F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D4E1CCC-78FD-45F8-93CC-F248CD9718F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D4E1CCC-78FD-45F8-93CC-F248CD9718F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BD585F2-10B3-4247-BAA7-7F860C51F7B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD585F2-10B3-4247-BAA7-7F860C51F7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD585F2-10B3-4247-BAA7-7F860C51F7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD585F2-10B3-4247-BAA7-7F860C51F7B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD70F1E4-8AC4-437D-97E0-2ED34B13305B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD70F1E4-8AC4-437D-97E0-2ED34B13305B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD70F1E4-8AC4-437D-97E0-2ED34B13305B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD70F1E4-8AC4-437D-97E0-2ED34B13305B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD761712-4D7B-446D-BE2A-E3559FB7EF33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD761712-4D7B-446D-BE2A-E3559FB7EF33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD761712-4D7B-446D-BE2A-E3559FB7EF33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD761712-4D7B-446D-BE2A-E3559FB7EF33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +135,9 @@ Global
 		{4C0AB8D6-7383-4A1F-BAF4-D456A76211D5} = {8ACECA17-F49A-47D3-8A1B-68BC2B0C9687}
 		{B8DAC1F8-678C-4409-8B53-478A0BB9C208} = {BE7E4AE3-AD84-422B-81C9-18331534317D}
 		{9D4E1CCC-78FD-45F8-93CC-F248CD9718F6} = {B8DAC1F8-678C-4409-8B53-478A0BB9C208}
+		{8BD585F2-10B3-4247-BAA7-7F860C51F7B7} = {7CFE9FA0-1247-444C-B54F-46FB73C0B3FD}
+		{BD70F1E4-8AC4-437D-97E0-2ED34B13305B} = {7CFE9FA0-1247-444C-B54F-46FB73C0B3FD}
+		{DD761712-4D7B-446D-BE2A-E3559FB7EF33} = {7CFE9FA0-1247-444C-B54F-46FB73C0B3FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0B2D1C5-C68C-4899-938A-E9CA74CB5ED5}
