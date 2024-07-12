@@ -12,9 +12,9 @@
 	<ItemGroup>
 		<!--<PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.0.0-beta.8" />
 		<PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.0.0" />-->
-		<PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
+		<PackageReference Include="Microsoft.ApplicationInsights" Version="2.*" />
+		<PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.*" />
-		<PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.21.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="8.*" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="8.*" />
 		<!--<PackageReference Include="OpenTelemetry.Exporter.Console" Version="$(OpenTelemetryVersion)" />

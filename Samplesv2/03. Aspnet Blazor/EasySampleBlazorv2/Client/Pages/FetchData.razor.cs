@@ -11,20 +11,18 @@ namespace EasySampleBlazorv2.Client.Pages
 {
     public partial class FetchData : ComponentBase
     {
-        [Inject]
-        protected ILogger<Counter> _logger { get; set; }
+        [Inject] protected ILogger<Counter> _logger { get; set; }
 
         private WeatherForecast[] forecasts;
 
         protected override async Task OnInitializedAsync()
         {
-            using (var scope = _logger.BeginMethodScope())
-            {
-                scope.LogDebug($"Http.BaseAddress: {Http.BaseAddress}");
-                //forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-                forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
-                scope.LogDebug(new { forecasts });
-            }
+            using var scope = _logger.BeginMethodScope();
+            
+            scope.LogDebug($"Http.BaseAddress: {Http.BaseAddress}");
+            //forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+            scope.LogDebug(new { forecasts });
         }
 
         public class WeatherForecast
