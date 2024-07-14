@@ -11,24 +11,24 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 var services = builder.Services;
 
 services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
 services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
-    //loggingBuilder.AddConsole();
-    //loggingBuilder.AddDiginsightConsole();
+    // loggingBuilder.AddConsole();
+    // loggingBuilder.AddDiginsightConsole();
 });
+
 services.Configure<DiginsightActivitiesOptions>(options =>
 {
     options.LogActivities = true;
-    //options.ActivitySources.Add(Observability.ActivitySource.Name);
+    // options.ActivitySources.Add(Observability.ActivitySource.Name);
 });
-
 
 services.AddMsalAuthentication(options =>
 {
     builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
 });
-
 
 builder.ConfigureContainer(new DiginsightServiceProviderFactory(new ServiceProviderOptions()));
 var host = builder.Build();

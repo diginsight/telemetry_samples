@@ -1,5 +1,6 @@
 ﻿@page "/counter"
 @using System.Diagnostics
+@using Diginsight.Diagnostics
 
 <PageTitle>Counter</PageTitle>
 
@@ -14,6 +15,9 @@
 
     private void IncrementCount()
     {
+        using var activity = Observability.ActivitySource.StartMethodActivity();
+        using var activity1 = Observability.ActivitySource.StartActivity("IncrementCount");
+        
         currentCount++;
         // var processName = Process.GetCurrentProcess().ProcessName;
         // Console.WriteLine($"Process Name: {processName}");
