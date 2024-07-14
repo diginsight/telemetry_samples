@@ -21,21 +21,22 @@ namespace EasySampleBlazorv2.Client
 
             builder.Logging.SetMinimumLevel(LogLevel.Trace);
 
-            var serviceProvider = builder.Services.BuildServiceProvider();
-            //// Gets the standard ILoggerProvider (i.e. the console provider)
-            //var consoleProvider = serviceProvider.GetRequiredService<ILoggerProvider>();
-            //Console.WriteLine($"loggerProvider: '{consoleProvider}'"); // default logger is WebAssemblyConsoleLogger
 
+            
+            builder.Logging.ClearProviders();
+            
             // Creates a Trace logger provider
             var consoleProvider = new TraceLoggerConsoleProvider();
             var traceLoggerProvider = new TraceLoggerFormatProvider(builder.Configuration) { ConfigurationSuffix = "Console" };
             traceLoggerProvider.AddProvider(consoleProvider);
-
-            // replaces the provider with the trace logger provider
-            builder.Logging.ClearProviders();
             builder.Logging.AddProvider(traceLoggerProvider); //i.e. builder.Services.AddSingleton(traceLoggerProvider);
 
-            serviceProvider = builder.Services.BuildServiceProvider();
+            // replaces the provider with the trace logger provider
+            var serviceProvider = builder.Services.BuildServiceProvider();
+            //// Gets the standard ILoggerProvider (i.e. the console provider)
+            //var consoleProvider = serviceProvider.GetRequiredService<ILoggerProvider>();
+            //Console.WriteLine($"loggerProvider: '{consoleProvider}'"); // default logger is WebAssemblyConsoleLogger
+            //serviceProvider = builder.Services.BuildServiceProvider();
             ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             Console.WriteLine($"loggerFactory: '{loggerFactory}'");
             // gets a logger from the ILoggerFactory
