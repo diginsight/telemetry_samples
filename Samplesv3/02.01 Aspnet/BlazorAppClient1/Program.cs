@@ -5,6 +5,8 @@ using Diginsight.Diagnostics;
 using Diginsight;
 using Diginsight.Strings;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+using Blazor.Extensions.Logging;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -17,9 +19,9 @@ services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvi
 services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
-    // loggingBuilder.AddConsole();
+    loggingBuilder.AddBrowserConsole();
     // loggingBuilder.AddDiginsightConsole();
-
+    
     var emitter = new BlazorActivityLogEmitter();
     var activityListener = emitter.ToActivityListener(static _ => true);
     ActivitySource.AddActivityListener(activityListener);
