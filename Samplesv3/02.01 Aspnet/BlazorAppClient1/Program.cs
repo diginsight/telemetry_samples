@@ -20,8 +20,9 @@ services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
     loggingBuilder.AddBrowserConsole();
+    // loggingBuilder.AddConsole();
     // loggingBuilder.AddDiginsightConsole();
-    
+
     var emitter = new BlazorActivityLogEmitter();
     var activityListener = emitter.ToActivityListener(static _ => true);
     ActivitySource.AddActivityListener(activityListener);
