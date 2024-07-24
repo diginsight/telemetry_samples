@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Diginsight.Diagnostics.AspNetCore.OpenTelemetry" Version="$(DiginsightCoreVersion)" />
+		<PackageReference Include="Diginsight.Diagnostics.Log4Net" Version="$(DiginsightCoreVersion)" />
+
+		<PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.*" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.*" />
+		<PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.*" />
+
+		<PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.*" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.*" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.*" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.*" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.*" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.*" />
+		<PackageReference Include="Scrutor" Version="4.*" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.*" />
+
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="host.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="local.settings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
+</Project>
