@@ -30,6 +30,7 @@
 		<DiginsightDiagnosticsVersion>2.0.0.28</DiginsightDiagnosticsVersion>
 		<DiginsightCoreVersion>3.0.0-alpha.199</DiginsightCoreVersion>
 		<DiginsightSmartcacheVersion>3.0.0-alpha.199</DiginsightSmartcacheVersion>
+		<AzureFunctionsVersion>4.*</AzureFunctionsVersion>
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)Directory.build.props.user" Condition="Exists('$(MSBuildThisFileDirectory)Directory.build.props.user')" />

@@ -1,18 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AzureFunctionsVersion>v2</AzureFunctionsVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.38" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="host.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="local.settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Diginsight.Diagnostics.Log4Net" Version="$(DiginsightCoreVersion)" />
+		<PackageReference Include="Diginsight.Diagnostics.OpenTelemetry" Version="$(DiginsightCoreVersion)" />
+		<PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.4.0" />
+
+	</ItemGroup>
+		<!--<PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.*" />-->
+	<!--<ItemGroup>
+		<PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.*" />
+		<PackageReference Include="Diginsight.Diagnostics.AspNetCore.OpenTelemetry" Version="$(DiginsightCoreVersion)" />
+
+		<PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.*" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.*" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="1.*" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.*" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.*" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.*" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.*" />
+		<PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.*" />
+		<PackageReference Include="Azure.Identity" Version="1.*" />
+	</ItemGroup>-->
+
+	<ItemGroup>
+		<None Update="host.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="local.settings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
 </Project>
