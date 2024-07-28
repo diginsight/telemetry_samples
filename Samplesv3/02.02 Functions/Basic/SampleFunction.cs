@@ -3,6 +3,7 @@
 
 using System.IO;
 using System.Threading.Tasks;
+using Diginsight.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -29,6 +30,8 @@ namespace Microsoft.Azure.Functions.Samples.DependencyInjectionBasic
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+            using var activity = Observability.ActivitySource.StartMethodActivity(log, new { req });
+
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string name = req.Query["name"];
