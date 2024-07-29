@@ -57,10 +57,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorWebAppGlobal", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorWebAppGlobal.Client", "Samplesv3\02.01 Aspnet\SampleBlazorWebAppGlobal\SampleBlazorWebAppGlobal.Client\SampleBlazorWebAppGlobal.Client.csproj", "{70C9D439-9041-4965-884E-A95D92989988}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.02 Functions", "02.02 Functions", "{AEFAAF88-F7F5-4D0E-BE8D-FC108F0FA4AD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic", "Samplesv3\02.02 Functions\Basic\Basic.csproj", "{F25F1307-3C13-46F6-8E1C-A791F7A0130F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,10 +119,6 @@ Global
 		{70C9D439-9041-4965-884E-A95D92989988}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70C9D439-9041-4965-884E-A95D92989988}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70C9D439-9041-4965-884E-A95D92989988}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F25F1307-3C13-46F6-8E1C-A791F7A0130F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F25F1307-3C13-46F6-8E1C-A791F7A0130F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F25F1307-3C13-46F6-8E1C-A791F7A0130F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F25F1307-3C13-46F6-8E1C-A791F7A0130F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,8 +143,6 @@ Global
 		{2A37B0E2-5C0D-4455-BD8B-7FEBEDEDD8AC} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
 		{C6B92C00-D552-4B63-9650-CBC5EB200638} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
 		{70C9D439-9041-4965-884E-A95D92989988} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
-		{AEFAAF88-F7F5-4D0E-BE8D-FC108F0FA4AD} = {BE7E4AE3-AD84-422B-81C9-18331534317D}
-		{F25F1307-3C13-46F6-8E1C-A791F7A0130F} = {AEFAAF88-F7F5-4D0E-BE8D-FC108F0FA4AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0B2D1C5-C68C-4899-938A-E9CA74CB5ED5}
