@@ -28,8 +28,8 @@
 		<OpenTelemetryBetaVersion>1.5.*-*</OpenTelemetryBetaVersion>
 
 		<DiginsightDiagnosticsVersion>2.0.0.28</DiginsightDiagnosticsVersion>
-		<DiginsightCoreVersion>3.0.0-alpha.199</DiginsightCoreVersion>
-		<DiginsightSmartcacheVersion>3.0.0-alpha.199</DiginsightSmartcacheVersion>
+		<DiginsightCoreVersion>3.0.0-alpha.205</DiginsightCoreVersion>
+		<DiginsightSmartcacheVersion>3.0.0-alpha.203</DiginsightSmartcacheVersion>
 		<AzureFunctionsVersion>4.*</AzureFunctionsVersion>
 	</PropertyGroup>
 

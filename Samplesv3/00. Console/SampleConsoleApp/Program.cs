@@ -31,7 +31,8 @@ namespace SampleConsoleApp
         {
             DiginsightActivitiesOptions activitiesOptions = new() { LogActivities = true };
             var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-            deferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+            //deferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+            deferredLoggerFactory.ActivitySourceFilter = (activitySource) => activitySource.Name.StartsWith("Sample");
             logger = deferredLoggerFactory.CreateLogger<Program>();
 
             using var activity = Observability.ActivitySource.StartMethodActivity(logger);
@@ -49,7 +50,8 @@ namespace SampleConsoleApp
         {
             var activitiesOptions = new DiginsightActivitiesOptions() { LogActivities = true };
             var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-            deferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+            //deferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+            deferredLoggerFactory.ActivitySourceFilter = (activitySource) => activitySource.Name.StartsWith($"Sample");
             LoggerFactory = deferredLoggerFactory;
             var logger = LoggerFactory.CreateLogger<Program>();
 

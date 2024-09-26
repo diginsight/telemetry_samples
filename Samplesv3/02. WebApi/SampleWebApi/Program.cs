@@ -13,7 +13,8 @@ public class Program
     {
         var activitiesOptions = new DiginsightActivitiesOptions() { LogActivities = true };
         DeferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-        DeferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+        //DeferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+        DeferredLoggerFactory.ActivitySourceFilter = (activitySource) => activitySource.Name.StartsWith($"Sample");
         var logger = DeferredLoggerFactory.CreateLogger<Program>();
 
         IWebHost host;

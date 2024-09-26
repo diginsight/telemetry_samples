@@ -8,7 +8,8 @@ using System.Diagnostics;
 
 var activitiesOptions = new DiginsightActivitiesOptions() { LogActivities = true };
 var deferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-deferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+//deferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+deferredLoggerFactory.ActivitySourceFilter = (activitySource) => activitySource.Name.StartsWith($"Sample");
 var logger = deferredLoggerFactory.CreateLogger(typeof(Program));
 
 using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { args });

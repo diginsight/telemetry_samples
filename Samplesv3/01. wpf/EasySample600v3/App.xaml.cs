@@ -62,7 +62,8 @@ namespace EasySample
         {
             var activitiesOptions = new DiginsightActivitiesOptions() { LogActivities = true };
             DeferredLoggerFactory = new DeferredLoggerFactory(activitiesOptions: activitiesOptions);
-            DeferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+            //DeferredLoggerFactory.ActivitySources.Add(Observability.ActivitySource);
+            DeferredLoggerFactory.ActivitySourceFilter = (activitySource) => activitySource.Name.StartsWith($"Easy");
             var logger = DeferredLoggerFactory.CreateLogger<App>();
 
             using var activity = Observability.ActivitySource.StartMethodActivity(logger);
