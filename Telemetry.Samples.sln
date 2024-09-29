@@ -57,6 +57,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorWebAppGlobal", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorWebAppGlobal.Client", "Samplesv3\02.01 Aspnet\SampleBlazorWebAppGlobal\SampleBlazorWebAppGlobal.Client\SampleBlazorWebAppGlobal.Client.csproj", "{70C9D439-9041-4965-884E-A95D92989988}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApi01", "Samplesv3\02. WebApi\SampleWebApi01\SampleWebApi01.csproj", "{A37E4964-C516-41FC-9CEE-F0094CA1B38B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{70C9D439-9041-4965-884E-A95D92989988}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70C9D439-9041-4965-884E-A95D92989988}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70C9D439-9041-4965-884E-A95D92989988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A37E4964-C516-41FC-9CEE-F0094CA1B38B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A37E4964-C516-41FC-9CEE-F0094CA1B38B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A37E4964-C516-41FC-9CEE-F0094CA1B38B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A37E4964-C516-41FC-9CEE-F0094CA1B38B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,6 +149,7 @@ Global
 		{2A37B0E2-5C0D-4455-BD8B-7FEBEDEDD8AC} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
 		{C6B92C00-D552-4B63-9650-CBC5EB200638} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
 		{70C9D439-9041-4965-884E-A95D92989988} = {54020E43-0805-4DBC-81C6-6AAD016F5136}
+		{A37E4964-C516-41FC-9CEE-F0094CA1B38B} = {B8DAC1F8-678C-4409-8B53-478A0BB9C208}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0B2D1C5-C68C-4899-938A-E9CA74CB5ED5}
