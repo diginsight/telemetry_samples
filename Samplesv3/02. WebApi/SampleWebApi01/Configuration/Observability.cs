@@ -67,6 +67,7 @@ public static class AddObservabilityExtension
                         static _ => Level.All
                     );
                 }
+                //loggingBuilder.AddDiginsightRuntimeAnalysis();
             }
         );
 

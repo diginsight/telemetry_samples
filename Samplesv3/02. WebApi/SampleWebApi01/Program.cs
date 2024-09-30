@@ -3,6 +3,7 @@ using Diginsight;
 using Diginsight.Diagnostics;
 using SampleWebApi01;
 using SampleWebApi01.Configuration;
+using System.Configuration;
 
 public class Program
 {
@@ -28,6 +29,7 @@ public class Program
             builder.Services.AddObservability(builder.Configuration);                               // Diginsight: registers loggers
             builder.Services.FlushOnCreateServiceProvider((IDeferredLoggerFactory)LoggerFactory);   // Diginsight: registers startup log flush
             var webHost = builder.Host.UseDiginsightServiceProvider();                              // Diginsight: Flushes startup log and initializes standard log
+            
             logger.LogDebug("builder.Services.AddObservability(builder.Configuration);");
             logger.LogDebug("builder.Services.FlushOnCreateServiceProvider(deferredLoggerFactory);");
             logger.LogDebug("var webHost = builder.Host.UseDiginsightServiceProvider();");
@@ -35,6 +37,8 @@ public class Program
             builder.Services.AddControllers(); logger.LogDebug("builder.Services.AddControllers();");
             builder.Services.AddEndpointsApiExplorer(); logger.LogDebug("builder.Services.AddEndpointsApiExplorer();");
             builder.Services.AddSwaggerGen(); logger.LogDebug("builder.Services.AddSwaggerGen();");
+
+            //builder.Services.ConfigureClassAware<FeatureFlagOptions>(builder.Configuration.GetSection("AppSettings"));
 
             app = builder.Build(); logger.LogDebug("var app = builder.Build();");
 

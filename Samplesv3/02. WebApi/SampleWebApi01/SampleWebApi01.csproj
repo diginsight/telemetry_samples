@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -7,14 +7,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
 
-		<PackageReference Include="Diginsight.Core" Version="$(DiginsightCoreVersion)"  />
-		<PackageReference Include="Diginsight.AspnetCore" Version="$(DiginsightCoreVersion)"  />
-		<PackageReference Include="Diginsight.Diagnostics" Version="$(DiginsightCoreVersion)"  />
-		<PackageReference Include="Diginsight.Diagnostics.Log4Net" Version="$(DiginsightCoreVersion)"  />
-	</ItemGroup>
+		<PackageReference Include="Diginsight.Core" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
+		<PackageReference Include="Diginsight.AspnetCore" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
+		<PackageReference Include="Diginsight.Diagnostics" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
+		<PackageReference Include="Diginsight.Diagnostics.Log4Net" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
+		<!--<PackageReference Include="Diginsight.Diagnostics.Copilot" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'"  />-->
 
+		<ProjectReference Include="$(DiginsightCoreSolutionDirectory)Diginsight.Core\Diginsight.Core.csproj" Condition="'$(DiginsightCoreDirectImport)' == 'true'" />
+		<ProjectReference Include="$(DiginsightCoreSolutionDirectory)Diginsight.Diagnostics\Diginsight.Diagnostics.csproj" Condition="'$(DiginsightCoreDirectImport)' == 'true'" />
+		<ProjectReference Include="$(DiginsightCoreSolutionDirectory)Diginsight.Diagnostics.AspNetCore.OpenTelemetry\Diginsight.Diagnostics.AspNetCore.OpenTelemetry.csproj" Condition="'$(DiginsightCoreDirectImport)' == 'true'" />
+		<ProjectReference Include="$(DiginsightCoreSolutionDirectory)Diginsight.Diagnostics.Log4Net\Diginsight.Diagnostics.Log4Net.csproj" Condition="'$(DiginsightCoreDirectImport)' == 'true'" />
+		<!--<ProjectReference Include="$(DiginsightCoreSolutionDirectory)Diginsight.Diagnostics.Copilot\Diginsight.Diagnostics.Copilot.csproj" Condition="'$(DiginsightCoreDirectImport)' == 'true'" />-->
+	</ItemGroup>
 </Project>

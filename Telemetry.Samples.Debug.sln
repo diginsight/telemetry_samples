@@ -60,6 +60,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorApp.Client", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleBlazorApp", "Samplesv3\02.01 Aspnet\SampleBlazorApp\SampleBlazorApp\SampleBlazorApp.csproj", "{F80DC1BE-9DEF-49F9-9607-DFD4DAA4896C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApi01", "Samplesv3\02. WebApi\SampleWebApi01\SampleWebApi01.csproj", "{B9313A8B-DC2C-4141-8604-D6D03ED9D825}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diginsight.Diagnostics.Copilot", "..\telemetry\src\Diginsight.Diagnostics.Copilot\Diginsight.Diagnostics.Copilot.csproj", "{71B5695F-A5AD-447A-BE7A-08A27E807708}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +161,18 @@ Global
 		{F80DC1BE-9DEF-49F9-9607-DFD4DAA4896C}.DebugWithProjectReferences|Any CPU.Build.0 = Debug|Any CPU
 		{F80DC1BE-9DEF-49F9-9607-DFD4DAA4896C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F80DC1BE-9DEF-49F9-9607-DFD4DAA4896C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9313A8B-DC2C-4141-8604-D6D03ED9D825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9313A8B-DC2C-4141-8604-D6D03ED9D825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9313A8B-DC2C-4141-8604-D6D03ED9D825}.DebugWithProjectReferences|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9313A8B-DC2C-4141-8604-D6D03ED9D825}.DebugWithProjectReferences|Any CPU.Build.0 = Debug|Any CPU
+		{B9313A8B-DC2C-4141-8604-D6D03ED9D825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9313A8B-DC2C-4141-8604-D6D03ED9D825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71B5695F-A5AD-447A-BE7A-08A27E807708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71B5695F-A5AD-447A-BE7A-08A27E807708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71B5695F-A5AD-447A-BE7A-08A27E807708}.DebugWithProjectReferences|Any CPU.ActiveCfg = Debug|Any CPU
+		{71B5695F-A5AD-447A-BE7A-08A27E807708}.DebugWithProjectReferences|Any CPU.Build.0 = Debug|Any CPU
+		{71B5695F-A5AD-447A-BE7A-08A27E807708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71B5695F-A5AD-447A-BE7A-08A27E807708}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +198,8 @@ Global
 		{710B20F8-74B4-49EF-B5AD-7AEA4D77EE9E} = {1C1533A8-8F56-4FD2-8F12-B5568C7CCF5A}
 		{70F12972-5055-43C3-8C07-49257B492D82} = {1C1533A8-8F56-4FD2-8F12-B5568C7CCF5A}
 		{F80DC1BE-9DEF-49F9-9607-DFD4DAA4896C} = {1C1533A8-8F56-4FD2-8F12-B5568C7CCF5A}
+		{B9313A8B-DC2C-4141-8604-D6D03ED9D825} = {54DF4A3B-D9D6-4480-8B2F-306AAB5CE1B3}
+		{71B5695F-A5AD-447A-BE7A-08A27E807708} = {1DBBED92-BD24-4C18-B63F-E699E95FB2AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0B2D1C5-C68C-4899-938A-E9CA74CB5ED5}
