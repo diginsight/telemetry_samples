@@ -119,7 +119,7 @@ namespace EasySample
             await Host.StartAsync();
 
             logger.LogDebug("host = appBuilder.Build(); completed");
-            var mainWindow = Host.Services.GetRequiredService<MainWindow>(); logger.LogDebug($"Host.Services.GetRequiredService<MainWindow>(); returns {mainWindow.ToLogString()}");
+            var mainWindow = Host.Services.GetRequiredService<MainWindow>(); logger.LogDebug($"Host.Services.GetRequiredService<MainWindow>(); returns {mainWindow}");
 
             mainWindow.Show(); logger.LogDebug($"mainWindow.Show();");
         }

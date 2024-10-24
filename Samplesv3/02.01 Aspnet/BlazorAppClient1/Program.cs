@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using BlazorAppClient1;
 using Diginsight.Diagnostics;
 using Diginsight;
-using Diginsight.Strings;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Blazor.Extensions.Logging;

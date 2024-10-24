@@ -1,6 +1,5 @@
 ﻿using Diginsight;
 using Diginsight.AspNetCore;
-using Diginsight.Strings;
 using RestSharp;
 using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,19 +40,19 @@ namespace SampleWebApi
                 .DynamicallyConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
 
             // configure type contracts for log string rendering
-            static void ConfigureTypeContracts(LogStringTypeContractAccessor accessor)
-            {
-                accessor.GetOrAdd<RestResponse>(
-                    static typeContract =>
-                    {
-                        typeContract.GetOrAdd(static x => x.Request, static mc => mc.Included = false);
-                        typeContract.GetOrAdd(static x => x.ResponseStatus, static mc => mc.Order = 1);
-                        //typeContract.GetOrAdd(static x => x.Content, static mc => mc.Order = 1);
-                    }
-                );
-            }
-            AppendingContextFactoryBuilder.DefaultBuilder.ConfigureContracts(ConfigureTypeContracts);
-            services.Configure<LogStringTypeContractAccessor>(ConfigureTypeContracts);
+            //static void ConfigureTypeContracts(LogStringTypeContractAccessor accessor)
+            //{
+            //    accessor.GetOrAdd<RestResponse>(
+            //        static typeContract =>
+            //        {
+            //            typeContract.GetOrAdd(static x => x.Request, static mc => mc.Included = false);
+            //            typeContract.GetOrAdd(static x => x.ResponseStatus, static mc => mc.Order = 1);
+            //            //typeContract.GetOrAdd(static x => x.Content, static mc => mc.Order = 1);
+            //        }
+            //    );
+            //}
+            //AppendingContextFactoryBuilder.DefaultBuilder.ConfigureContracts(ConfigureTypeContracts);
+            //services.Configure<LogStringTypeContractAccessor>(ConfigureTypeContracts);
 
             services.AddApiVersioning(opt =>
             {

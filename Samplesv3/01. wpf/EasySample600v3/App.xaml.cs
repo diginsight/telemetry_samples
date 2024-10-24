@@ -181,7 +181,7 @@ namespace EasySample
             logger.LogDebug("host = appBuilder.Build(); completed");
             await Host.StartAsync(); logger.LogDebug($"await Host.StartAsync();");
 
-            var mainWindow = Host.Services.GetRequiredService<MainWindow>(); logger.LogDebug($"Host.Services.GetRequiredService<MainWindow>(); returns {mainWindow.ToLogString()}");
+            var mainWindow = Host.Services.GetRequiredService<MainWindow>(); logger.LogDebug($"Host.Services.GetRequiredService<MainWindow>(); returns {mainWindow}");
 
             mainWindow.Show(); logger.LogDebug($"mainWindow.Show();");
             base.OnStartup(e); logger.LogDebug($"base.OnStartup(e);");

@@ -1,7 +1,6 @@
 using Diginsight;
 using Diginsight.AspNetCore;
 using Diginsight.Diagnostics;
-using Diginsight.Strings;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -67,19 +66,19 @@ public class Program
         services.ConfigureClassAware<FeatureFlagOptions>(configuration.GetSection("FeatureManagement"))
             .DynamicallyConfigureClassAwareFromHttpRequestHeaders<FeatureFlagOptions>();
 
-        static void ConfigureTypeContracts(LogStringTypeContractAccessor accessor) // configure type contracts for log string rendering
-        {
-            accessor.GetOrAdd<RestResponse>(
-                static typeContract =>
-                {
-                    typeContract.GetOrAdd(static x => x.Request, static mc => mc.Included = false);
-                    typeContract.GetOrAdd(static x => x.ResponseStatus, static mc => mc.Order = 1);
-                    //typeContract.GetOrAdd(static x => x.Content, static mc => mc.Order = 1);
-                }
-            );
-        }
-        AppendingContextFactoryBuilder.DefaultBuilder.ConfigureContracts(ConfigureTypeContracts);
-        services.Configure<LogStringTypeContractAccessor>(ConfigureTypeContracts);
+        //static void ConfigureTypeContracts(LogStringTypeContractAccessor accessor) // configure type contracts for log string rendering
+        //{
+        //    accessor.GetOrAdd<RestResponse>(
+        //        static typeContract =>
+        //        {
+        //            typeContract.GetOrAdd(static x => x.Request, static mc => mc.Included = false);
+        //            typeContract.GetOrAdd(static x => x.ResponseStatus, static mc => mc.Order = 1);
+        //            //typeContract.GetOrAdd(static x => x.Content, static mc => mc.Order = 1);
+        //        }
+        //    );
+        //}
+        //AppendingContextFactoryBuilder.DefaultBuilder.ConfigureContracts(ConfigureTypeContracts);
+        //services.Configure<LogStringTypeContractAccessor>(ConfigureTypeContracts);
 
         services.AddApiVersioning(opt =>
         {

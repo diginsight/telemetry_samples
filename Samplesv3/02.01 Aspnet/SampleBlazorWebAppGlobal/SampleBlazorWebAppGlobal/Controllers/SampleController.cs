@@ -1,5 +1,5 @@
 using Asp.Versioning;
-using Diginsight.CAOptions;
+using Diginsight.Options;
 using Diginsight.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

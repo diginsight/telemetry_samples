@@ -1,5 +1,5 @@
 ﻿
-using Diginsight.CAOptions;
+using Diginsight.Options;
 
 namespace SampleBlazorAuthenticatedApp;
 

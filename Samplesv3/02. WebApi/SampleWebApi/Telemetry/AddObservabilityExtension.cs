@@ -2,7 +2,7 @@
 using Azure.Monitor.OpenTelemetry.Exporter;
 using Diginsight;
 using Diginsight.AspNetCore;
-using Diginsight.CAOptions;
+using Diginsight.Options;
 using Diginsight.Diagnostics;
 using Diginsight.Diagnostics.AspNetCore;
 using Diginsight.Diagnostics.Log4Net;

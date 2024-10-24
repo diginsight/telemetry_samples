@@ -1,4 +1,4 @@
-﻿using Diginsight.CAOptions;
+﻿using Diginsight.Options;
 using Diginsight.Diagnostics;
 
 namespace SampleWebApi;

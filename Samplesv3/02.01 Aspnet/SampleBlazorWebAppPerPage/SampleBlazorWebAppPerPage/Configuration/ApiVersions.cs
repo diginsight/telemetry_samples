@@ -1,5 +1,5 @@
 ﻿using Asp.Versioning;
-using Diginsight.CAOptions;
+using Diginsight.Options;
 
 namespace SampleBlazorWebAppPerPage;
 
